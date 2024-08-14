@@ -1,0 +1,164 @@
+.floating-navbar {
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+}
+.navbar-placeholder {
+    height: calc(60px + 36px);
+}
+.navbar {
+    background-color: white;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid gainsboro;
+    padding: 4px 12px;
+    box-sizing: border-box;
+}
+.navbar .left-side, 
+.navbar .right-side {
+    display: flex;
+    align-items: center;
+}
+.logo-and-menu {
+    width: 240px;
+    display: flex;
+    align-items: center;
+}
+.img-logo {
+    height: 52px;
+    object-fit: contain;
+}
+
+.navbar .right-side .option {
+    width: 64px;
+    /* border: 1px solid salmon; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.navbar .right-side .icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-radius: 50%;
+    transition: 0.2s;
+    cursor: pointer;
+}
+.navbar .right-side .icon:hover {
+    background-color: rgb(235, 235, 235);
+
+}
+.navbar .right-side .icon .notification {
+    position: absolute;
+    background-color: red;
+    height: 20px;
+    width: 18px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: -4px;
+}
+.navbar .right-side .icon .notification p {
+    color: white;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.profile-imgDiv {
+    background-color: blue;
+    height: 38px;
+    width: 38px;
+    border-radius: 50%;
+    border: 3px solid gainsboro;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.profile-imgDiv p {
+    color: white;
+}
+
+.menu-icon {
+    height: 48px;
+    width: 38px;
+    /* background-color: aqua; */
+    position: relative;
+    cursor: pointer;
+    margin: 0 6px;
+}
+.menu-icon span {
+    position: absolute;
+    height: 6px;
+    background-color: black;
+    border-radius: 3px;
+    transition: 0.3s;
+}
+.menu-icon:hover span {
+    width: 100%;
+}
+.menu-icon .line-1 {
+    width: 60%;
+    top: 10px;
+}
+.menu-icon .line-2 {
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.menu-icon .line-3 {
+    width: 60%;
+    bottom: 10px;
+    right: 0;
+}
+
+.sub-navbar {
+    height: 36px;
+    background-color: var(--dark);
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    justify-content: center;
+
+    width: 100%;
+    position: absolute;
+    z-index: -1;
+    transition-duration: 0.2s;
+}
+.sub-navbar.hidden {
+    transform: translateY(-36px);
+    transition-delay: 0.5s;
+}
+.sub-navbar .option-red {
+    padding: 0 18px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    background-color: red;
+}
+.sub-navbar .option-red p {
+    font-weight: 600;
+    color: white;
+}
+.sub-navbar .option {
+    padding: 0 18px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.sub-navbar .option p {
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    transition: 0.4s;
+}
+.sub-navbar .option:hover p {
+    color: var(--orange);
+}

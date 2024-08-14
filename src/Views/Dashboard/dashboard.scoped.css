@@ -1,0 +1,63 @@
+.gray-bg {
+    background-color: var(--offWhite);
+}
+.shop-everything {
+    padding: 144px 0px 24px 0px;
+}
+
+.section {
+    padding: 108px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.section.odd {
+    background-color: var(--offWhite);
+}
+.section.even {
+    background-color: white;
+}
+.bannerDiv {
+    height: 30.3vw;
+    width: 91vw;
+    display: flex;
+}
+.banner {
+    margin: auto;
+    height: 30vw;
+    width: 90vw;
+    background-color: lightblue;
+    border-radius: 24px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.banner .see-more-link {
+    height: 72px;
+    padding: 0 24PX;
+    border-radius: 0 0 0 24px;
+    background-color: var(--dark);
+    display: flex;
+    margin: 0 0 0 auto;
+}
+.banner .see-more-link p {
+    color: white;
+    font-weight: 600;
+    font-size: 32px;
+    margin: auto;
+    transition: 0.3s;
+}
+.banner:hover {
+    /* filter: brightness(95%); */
+    box-shadow: 0 0 36px rgba(0, 0, 0, 0.15);
+    width: 91vw;
+    height: 30.3vw;
+}
+.banner:hover .see-more-link p {
+    color: var(--orange);
+}

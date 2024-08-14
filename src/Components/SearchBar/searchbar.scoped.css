@@ -1,0 +1,44 @@
+.inputBox-container {
+    display: flex;
+    align-items: center;
+  }
+  .inputBox {
+    position: relative;
+  }
+  
+  .inputBox>.right-icon {
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    color: gray;
+  }
+  
+  .inputBox>.left-icon {
+    position: absolute;
+    top: 6px;
+    left: 10px;
+    color: gray;
+  }
+
+  .input-primary {
+    width: 100%;
+    border: none;
+    background-color: rgb(244, 244, 244);
+    border-radius: 18px;
+    padding: 10px 8px 8px 40px;
+    box-sizing: border-box;
+    font-size: 14px;
+    border: 1px solid transparent;
+  }
+  .input-primary:hover {
+    background-color: rgb(240, 240, 240);
+  }
+  .input-primary.invalid-required:valid {
+    border: 1px solid red;
+  }
+  
+  .input-primary:focus {
+    border: 1px solid rgb(0, 100, 255);
+    border: 1px solid gainsboro;
+    outline: none;
+  }

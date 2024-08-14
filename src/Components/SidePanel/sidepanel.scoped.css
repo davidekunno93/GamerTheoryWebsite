@@ -1,0 +1,122 @@
+.side-panel {
+    position: fixed;
+    top: 0;
+    width: 320px;
+    height: 100%;
+    background-color: white;
+    box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
+    transition: 0.4s;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.side-panel.closed {
+    transform: translateX(-320px);
+    box-shadow: none;
+}
+
+.side-panel .head {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0px 24px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+}
+.side-panel .head p {
+    font-weight: 700;
+}
+.side-panel .body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.side-panel .body .sub-head {
+    padding: 0px 24px;
+    height: 60px;
+    border-bottom: 1px solid gainsboro;
+    display: flex;
+    align-items: center;
+
+    transition: 0.2s;
+    /* flex-direction: row-reverse; */
+    /* justify-content: flex-end; */
+}
+.side-panel .body .sub-head:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+.sub-head .profile-imgDiv {
+    background-color: blue;
+    height: 38px;
+    width: 38px;
+    border-radius: 50%;
+    border: 3px solid gainsboro;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* margin-right: 12px; */
+    margin: 0 0 0 auto;
+}
+.sub-head .profile-imgDiv p {
+    color: white;
+}
+.sub-head .text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.sub-head .title {
+    font-size: medium;
+    font-weight: 600;
+}
+.sub-head .sub-title {
+    font-size: small;
+}
+
+.panel-options::-webkit-scrollbar {
+    width: 0;
+}
+.panel-options {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 24px 36px 24px;
+    flex: 1;
+    overflow-y: scroll;
+}
+.panel-options .heading {
+    font-size: large;
+    font-weight: 700;
+    margin: 12px 0px;
+    /* padding: 0 24px; */
+}
+.panel-options .option {
+    padding: 16px 12px;
+    display: flex;
+    align-items:center;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 8px;
+}
+.panel-options .option:hover {
+    background-color: rgb(242, 242, 242);
+}
+.panel-options .option p {
+    color: #202024;
+    transition: 0.2s;
+    font-weight: 500;
+}
+/* .panel-options .option:hover p {
+    
+} */
+.panel-options .option .arrow {
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: 0.2s;
+    margin: 0 0 0 auto;
+}
+.panel-options .option:hover .arrow {
+    opacity: 1;
+    transform: translateY(0px);
+}
