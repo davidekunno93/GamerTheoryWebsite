@@ -1,3 +1,10 @@
+# Quick start the web app on your local machine:
+
+After completing a git clone to your local machine. Complete the following commands in your terminal:
+- npm install
+- npm run dev
+
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
