@@ -175,7 +175,7 @@ const SidePanel = ({ open, onClose }: SidePanelProps) => {
                             {/* PROFILE TAB */}
                             <div className="sub-head  pointer">
                                 <div className="text">
-                                    <p className='title'>Hi, David</p>
+                                    <p className='title'>Hi, User</p>
                                     <p className='sub-title'>Account Settings</p>
                                 </div>
                                 <div className="profile-imgDiv">
