@@ -27,7 +27,7 @@ export const Dashboard = () => {
     },
   ]
 
-  const banners = [
+  const bannerObjects = [
     {
       title: "Playstation Exclusives",
       imgUrl: "https://i.imgur.com/mzBN0cS.jpg",
@@ -53,11 +53,12 @@ export const Dashboard = () => {
 
   return (
     <>
-      <HeroSection banners={banners} />
+      <HeroSection bannerObjects={bannerObjects} />
 
       <div className="gray-bg shop-everything">
         <h1 className='center-text dark-text m-0'>Shop Everything. <span className='lightgray-text'>Choose your console...</span></h1>
       </div>
+
       {consoleFranchises.map((franchise, index) => {
         let isEven = (index + 1) % 2 === 0
         return <div className={`section ${isEven ? "even" : "odd"}`}>
@@ -70,8 +71,6 @@ export const Dashboard = () => {
           </div>
         </div>
       })}
-
-
 
     </>
   )

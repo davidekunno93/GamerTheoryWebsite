@@ -9,6 +9,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: left;
     overflow: hidden;
     z-index: 0;
 }
@@ -29,6 +30,8 @@
     top: 350px;
     /* bottom: 48px; */
     left: 4.5vw;
+    width: 50%;
+    /* border: 1px solid salmon; */
 }
 .hero-section .caption p {
     color: white;
@@ -40,6 +43,7 @@
 }
 .hero-section .caption .text {
     font-size: large;
+    white-space: wrap;
 }
 
 

@@ -1,6 +1,6 @@
 // Hero Section
 export type HeroSectionProps = {
-    banners: BannerObject[]
+    bannerObjects: BannerObject[]
 }
 type BannerObject = {
     title?: string
@@ -8,6 +8,7 @@ type BannerObject = {
     text?: string
     btnText: string
     link: string
+    objectPosition?: string
 }
 
 

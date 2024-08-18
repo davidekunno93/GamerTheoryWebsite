@@ -17,7 +17,7 @@
 }
 
 .side-panel .head {
-    height: 60px;
+    min-height: 60px;
     display: flex;
     align-items: center;
     padding: 0px 24px;
@@ -33,7 +33,7 @@
 }
 .side-panel .body .sub-head {
     padding: 0px 24px;
-    height: 60px;
+    min-height: 60px;
     border-bottom: 1px solid gainsboro;
     display: flex;
     align-items: center;
@@ -91,15 +91,25 @@
     margin: 12px 0px;
     /* padding: 0 24px; */
 }
+.panel-options .option-container {
+    height: 56px;
+    /* height: 168px; */
+    /* border: 1px solid salmon; */
+    transition-duration: 0.3s;
+    overflow: hidden;
+}
 .panel-options .option {
+    height: 56px;
     padding: 16px 12px;
+    box-sizing: border-box;
     display: flex;
     align-items:center;
     cursor: pointer;
     transition: 0.3s;
     border-radius: 8px;
 }
-.panel-options .option:hover {
+.panel-options .option:hover,
+.panel-options .option.selected {
     background-color: rgb(242, 242, 242);
 }
 .panel-options .option p {
@@ -119,4 +129,39 @@
 .panel-options .option:hover .arrow {
     opacity: 1;
     transform: translateY(0px);
+}
+.panel-options .option.selected .arrow {
+    opacity: 1;
+    transform: translateY(2px);
+    rotate: -180deg;
+}
+
+.panel-options .sub-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 8px 0px;
+    padding-left: 60px;
+    transition-duration: 0.3s;
+
+}
+.sub-options.show {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(0px);
+}
+.sub-options.hide {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateX(12px);
+}
+.sub-options .sub-option {
+    cursor: pointer;
+}
+.sub-options .sub-option:hover p {
+    color: var(--orange);
+}
+.sub-options .sub-option p {
+    font-weight: 500;
+    transition: 0.2s;
 }

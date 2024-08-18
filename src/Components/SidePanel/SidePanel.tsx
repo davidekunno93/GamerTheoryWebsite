@@ -1,6 +1,6 @@
 import { Fade } from 'react-awesome-reveal';
 import './sidepanel.scoped.css'
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { DataContext } from '../../Context/DataProvider';
 import { OptionObject, SidePanelProps } from '../../types';
 
@@ -115,12 +115,6 @@ const SidePanel = ({ open, onClose }: SidePanelProps) => {
                     postTitle: null,
                     redText: ["title"],
                     googleIconPrompt: "local_fire_department",
-                    // subOptions: [
-                    //     {
-                    //         title: "",
-                    //         link: "",
-                    //     },
-                    // ]
                 },
                 {
                     title: "Pokemon Cards",
@@ -128,12 +122,6 @@ const SidePanel = ({ open, onClose }: SidePanelProps) => {
                     postTitle: null,
                     redText: ["preTitle"],
                     googleIconPrompt: "star",
-                    // subOptions: [
-                    //     {
-                    //         title: "",
-                    //         link: "",
-                    //     },
-                    // ]
                 },
             ]
         },
@@ -161,6 +149,53 @@ const SidePanel = ({ open, onClose }: SidePanelProps) => {
         },
     ]
 
+    // const optionContainerRefs = useRef([]);
+    const [selectedSubOption, setSelectedSubOption] = useState<string | null>(null);
+    const optionContainerFunctions = {
+        expand: function (id: string) {
+            const container: HTMLElement | null = document.getElementById(`optionContainer-${id}`);
+            const subOptions: HTMLElement | null = document.getElementById(`subOptions-${id}`);
+            let expandedHeight = 0;
+            if (subOptions) {
+                expandedHeight = subOptions?.clientHeight + 56;
+                subOptions.classList.replace('hide', 'show');
+            }
+            if (container) {
+                container.style.height = expandedHeight.toString() + "px";
+            }
+            console.log(id)
+            setSelectedSubOption(id);
+            for (let i=0; i<panelOptions.length; i++) {
+                for (let j=0; j<panelOptions[i].options.length; j++) {
+                    let subOption_id = i.toString()+j.toString();
+                    if (id !== subOption_id) {
+                        console.log(subOption_id)
+                        optionContainerFunctions.collapse(subOption_id);
+                    };
+                }
+            }
+        },
+        collapse: function (id: string) {
+            const container: HTMLElement | null = document.getElementById(`optionContainer-${id}`);
+            const subOptions: HTMLElement | null = document.getElementById(`subOptions-${id}`);
+            if (subOptions) {
+                subOptions.classList.replace('show', 'hide');
+            }
+            if (container) {
+                container.style.height = "56px";
+            }
+            
+        },
+        toggle: function (id: string) {
+            const subOptions: HTMLElement | null = document.getElementById(`subOptions-${id}`);
+            if (subOptions?.classList.contains('show')) {
+                optionContainerFunctions.collapse(id);
+                setSelectedSubOption(null);
+            } else {
+                optionContainerFunctions.expand(id);
+            }
+        }
+    }
 
     return (
         <div className="overlay-placeholder">
@@ -173,7 +208,7 @@ const SidePanel = ({ open, onClose }: SidePanelProps) => {
                         </div>
                         <div className="body">
                             {/* PROFILE TAB */}
-                            <div className="sub-head  pointer">
+                            <div className="sub-head pointer">
                                 <div className="text">
                                     <p className='title'>Hi, User</p>
                                     <p className='sub-title'>Account Settings</p>
@@ -188,16 +223,33 @@ const SidePanel = ({ open, onClose }: SidePanelProps) => {
                                     return <>
                                         <p key={i} className="heading">{optionObject.heading}</p>
                                         {optionObject.options.map((option, j) => {
-                                            return <div key={j} className="option">
-                                                <span className={`${gIcon} mr-2`}>{option.googleIconPrompt}</span>
-                                                <p>
-                                                    <span className={`${option.redText.includes("preTitle") && "red-text"}`}>{option.preTitle && option.preTitle + " "}</span>
-                                                    <span className={`${option.redText.includes("title") && "red-text"}`}>{option.title}</span>
-                                                    <span className={`${option.redText.includes("postTitle") && "red-text"}`}>{option.postTitle && " " + option.postTitle}</span>
-                                                </p>
-                                                {option.subOptions &&
-                                                    <span className={`${gIcon} arrow mt-h`}>keyboard_arrow_down</span>
-                                                }
+                                            let id: string = i.toString()+j.toString();
+                                            let isSelected = selectedSubOption === id;
+                                            return <div
+                                                key={id}
+                                                id={`optionContainer-${id}`}
+                                                // ref={(e: HTMLDivElement) => optionContainerRefs.current[id] = e}
+                                                className="option-container"
+                                            >
+                                                <div onClick={() => option.subOptions && optionContainerFunctions.toggle(id)} className={`option ${isSelected && "selected"}`}>
+                                                    <span className={`${gIcon} mr-2`}>{option.googleIconPrompt}</span>
+                                                    <p>
+                                                        <span className={`${option.redText.includes("preTitle") && "red-text"}`}>{option.preTitle && option.preTitle + " "}</span>
+                                                        <span className={`${option.redText.includes("title") && "red-text"}`}>{option.title}</span>
+                                                        <span className={`${option.redText.includes("postTitle") && "red-text"}`}>{option.postTitle && " " + option.postTitle}</span>
+                                                    </p>
+                                                    {option.subOptions &&
+                                                        <span className={`${gIcon} arrow mt-h`}>keyboard_arrow_down</span>
+                                                    }
+                                                </div>
+                                                <div id={`subOptions-${id}`} className="sub-options hide">
+                                                    {option.subOptions?.map((subOption, k) => {
+                                                        return <div key={k} className="sub-option">
+                                                            <p>{subOption.title}</p>
+                                                        </div>
+                                                    })}
+
+                                                </div>
                                             </div>
                                         })}
                                     </>
