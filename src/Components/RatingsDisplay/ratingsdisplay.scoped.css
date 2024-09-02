@@ -1,0 +1,22 @@
+.genre,
+.score-text,
+.ratings-count {
+    font-size: 12px;
+}
+.score-text {
+    color: darkblue;
+}
+.ratings-count {
+    color: gray;
+}
+.rating {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+}
+.star-img {
+    height: 10px;
+    width: 10px;
+    object-fit: contain;
+}

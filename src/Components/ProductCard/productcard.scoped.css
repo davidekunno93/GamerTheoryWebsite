@@ -1,0 +1,118 @@
+.product-card-container {
+    height: 460px;
+    width: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* border: 1px solid salmon; */
+}
+.product-card {
+    height: 448px;
+    width: 312px;
+    padding: 24px;
+    background-color: white;
+    box-sizing: border-box;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: 0.2s;
+}
+.product-card[data-cardVersion="video-game"] {
+    width: 280px;
+}
+
+.product-card[data-cardVersion="console"]:hover {
+    transform: translateY(-4px);
+}
+.product-card:hover {
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.07);
+}
+.product-card .imgDiv {
+    height: 60%;
+    /* width: 100%; */
+    object-fit: contain;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    cursor: pointer;
+}
+.product-card .imgDiv .console-strip {
+    width: 100%;
+    object-fit: contain;
+}
+.product-card .imgDiv .img {
+    width: 100%;
+    height: 100%;
+    /* background-color: whitesmoke; */
+    object-fit: contain;
+    object-position: center;
+    /* margin: auto; */
+}
+.product-card .imgDiv .video-game-img {
+    width: 100%;
+    height: 100%;
+    /* background-color: whitesmoke; */
+    object-fit: cover;
+    object-position: center;
+    /* margin: auto; */
+}
+.product-card .sub-title {
+    font-size: 12px;
+}
+.product-card .title {
+    font-size: 18px;
+}
+.product-card .footer {
+    margin: auto 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.product-card .price-and-favorite {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.product-card .price {
+    font-weight: 700;
+    font-size: 20px;
+    color: rgb(72, 72, 72);
+}
+.product-card .favorite {
+    width: auto;
+    padding: 0;
+    font-weight: 600;
+    background-color: rgb(245, 245, 245);
+    color: white;
+}
+.product-card .addBtn {
+    width: 100%;
+    font-weight: 600;
+    background-color: rgb(245, 0, 0);
+    color: white;
+}
+.product-card .addBtn:hover {
+    background-color: rgb(200, 0, 0);
+}
+
+.favorite-container {
+    display: flex;
+    width: 26px;
+    justify-content: center;
+    align-items: center;
+}
+.favorite-empty {
+    color: gray;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.favorite-empty:hover {
+    color: rgb(150, 150, 150);
+}
+.favorite-img {
+    height: 18px;
+    width: 20px;
+    /* object-fit: contain; */
+}

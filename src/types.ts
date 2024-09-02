@@ -1,6 +1,7 @@
 // Hero Section
 export type HeroSectionProps = {
     bannerObjects: BannerObject[]
+    bottomGradient?: boolean
 }
 type BannerObject = {
     title?: string
@@ -45,4 +46,22 @@ export type SearchBarProps = {
 // Navbar
 export type NavbarProps = {
     setSidePanelOpen: Function
-  }
+}
+
+
+// console page
+export type PlatformObject = {
+    id: number
+    name: string
+    slug: string
+};
+export type GenreObject = {
+    id: number
+    name: string
+}
+
+
+// General
+export type ObjectWithStringValues = {
+    [key: string]: string
+}

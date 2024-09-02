@@ -1,4 +1,6 @@
+import axios from "axios";
 import { createContext } from "react"
+import { GenreObject, PlatformObject } from "../types";
 
 const DataProvider = (props: any) => {
     // helper shorthands
@@ -16,7 +18,7 @@ const DataProvider = (props: any) => {
             }
             return words.join(" ");
         }
-    }
+    };
     const timeFunctions = {
         datinormal: function (systemDate: any, dateOrTime?: "date" | "time" | "dateAndTime" | null) {
             // system date => mm/dd/yyyy
@@ -156,15 +158,81 @@ const DataProvider = (props: any) => {
             date = timeFunctions.dayToDate(yearDay);
             return date;
         },
-    }
+    };
     function wait(ms: number) {
         return new Promise(resolve => setTimeout(resolve, ms))
-    }
+    };
 
-    
+    // get functions
+    const getGames = (platforms: string[], page?: number) => {
+        let platformIds = platformToPlatformId(platforms);
+        let url = `https://api.rawg.io/api/games?&platforms=${platformIds.join(",")}&page_size=12${page ? `&page=${page}` : ""}&key=${import.meta.env.VITE_APP_RAWG_API_KEY}`
+        const response = axios.get(url)
+            .then((response) => {
+                console.log(response);
+                return response.data;
+            })
+            .catch((error) => {
+                console.log(error);
+                return null;
+            })
+    };
+
+    // product functions
+    const platformToPlatformId = (platforms: string[]): string[] => {
+        const platformIds: string[] = [];
+        const ps4Slugs: string[] = ["playstation4", "playstation 4", "ps4"];
+        const ps5Slugs: string[] = ["playstation5", "playstation 5", "ps5"];
+        const xboxOneSlugs: string[] = ["one", "xbox one", "xbox-one", "xo", "xboxone"];
+        const xboxSXSlugs: string[] = ["xboxseriesx", "xbox series x", "series x", "xsx"];
+        const nintendoSlugs: string[] = ["nintendo", "nintendo switch", "nintendo-switch", "nintendoswitch"];
+        const pcSlugs: string[] = ["pc"];
+        for (let i = 0; i < platforms.length; i++) {
+            if (ps4Slugs.includes(platforms[i].toLowerCase())) {
+                // if ps4 - 18
+                platformIds.push("18");
+            } else if (ps5Slugs.includes(platforms[i].toLowerCase())) {
+                // if ps5 - 187
+                platformIds.push("187");
+            } else if (xboxOneSlugs.includes(platforms[i].toLowerCase())) {
+                // if xbox1 - 1
+                platformIds.push("1");
+            } else if (xboxSXSlugs.includes(platforms[i].toLowerCase())) {
+                // if xboxSX - 186
+                platformIds.push("186");
+            } else if (pcSlugs.includes(platforms[i].toLowerCase())) {
+                // if pc - 4
+                platformIds.push("4");
+            } else if (nintendoSlugs.includes(platforms[i].toLowerCase())) {
+                // if nintendo - 7
+                platformIds.push("7");
+            }
+        }
+        return platformIds;
+    };
+    const starImgs = {
+        noStar: "https://i.imgur.com/7T9CNME.png",
+        fullStar: "https://i.imgur.com/3eEFOjj.png",
+        halfStar: "https://i.imgur.com/gL5QY1I.png",
+    };
+    const convertPlatformsToString = (platformsObjectArr: PlatformObject[]): string => {
+        let platformsArr = [];
+        for (let i = 0; i < platformsObjectArr.length; i++) {
+            platformsArr.push(platformsObjectArr[i].slug);
+        };
+        return platformsArr.join(":");
+    };
+    const getGenre = (genreObjectArr: GenreObject[]): string => {
+        let genreArr = [];
+        for (let i = 0; i < genreObjectArr.length; i++) {
+            genreArr.push(genreObjectArr[i].name);
+        };
+        return genreArr.join(":");
+    };
 
     return (
-        <DataContext.Provider value={{ textFunctions, timeFunctions, wait, gIcon }}>
+        <DataContext.Provider value={{ textFunctions, timeFunctions, wait, gIcon, platformToPlatformId, 
+        starImgs, getGames, getGenre, convertPlatformsToString }}>
             {props.children}
         </DataContext.Provider>
     )

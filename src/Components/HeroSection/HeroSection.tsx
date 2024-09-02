@@ -3,7 +3,7 @@ import './herosection.scoped.css'
 import { HeroSectionProps } from '../../types';
 
 
-const HeroSection = ({ bannerObjects }: HeroSectionProps) => {
+const HeroSection = ({ bannerObjects, bottomGradient }: HeroSectionProps) => {
 
     let changeIndexTimeout: number | undefined = undefined;
     const [activeIndex, setActiveIndex] = useState<number>(-1);
@@ -24,6 +24,9 @@ const HeroSection = ({ bannerObjects }: HeroSectionProps) => {
 
     return (
         <div className="hero-section">
+            {bottomGradient &&
+                <div className="gradient-box"></div>
+            }
             <div className="dot-indicators">
                 {bannerObjects.map((dot, index: number) => {
                     return <div key={index} onClick={() => setActiveIndex(index)} className={`${dot} dot ${activeIndex === index ? "selected" : "unselected"}`}>
@@ -34,7 +37,7 @@ const HeroSection = ({ bannerObjects }: HeroSectionProps) => {
             <div className="inner" style={{ transform: `translateX(-${activeIndex === -1 ? "0" : activeIndex * 100}%)` }}>
                 {bannerObjects.map((banner, index) => {
                     return <div key={index} className="carousel-item-top position-relative">
-                        <img src={banner.imgUrl} alt="" className="hero-img" style={{ objectPosition: banner.objectPosition ?? "" }}/>
+                        <img src={banner.imgUrl} alt="" className="hero-img" style={{ objectPosition: banner.objectPosition ?? "" }} />
                         <button className="hero-btn">{banner.btnText}</button>
                         <div className="caption">
                             <p className='title'>{banner.title ?? ""}</p>

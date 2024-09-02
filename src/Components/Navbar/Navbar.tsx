@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './navbar.scoped.css'
 import SearchBar from '../SearchBar/SearchBar';
 import { NavbarProps } from '../../types';
+import { Link } from 'react-router-dom';
 
 
 const Navbar = ({ setSidePanelOpen }: NavbarProps) => {
@@ -36,7 +37,9 @@ const Navbar = ({ setSidePanelOpen }: NavbarProps) => {
                 <span className="line-2"></span>
                 <span className="line-3"></span>
               </div>
-              <img src="https://i.imgur.com/Hitxk01.png" className="img-logo"></img>
+              <Link to='/'>
+                <img src="https://i.imgur.com/Hitxk01.png" className="img-logo"></img>
+              </Link>
             </div>
             <SearchBar width={350} />
             <p className='weight-700 small mx-5'>Enjoy free shipping on orders of $149.99 or more!</p>
