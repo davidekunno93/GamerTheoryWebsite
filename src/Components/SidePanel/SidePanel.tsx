@@ -1,6 +1,6 @@
 import { Fade } from 'react-awesome-reveal';
 import './sidepanel.scoped.css'
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { DataContext } from '../../Context/DataProvider';
 import { OptionObject, SidePanelProps } from '../../types';
 

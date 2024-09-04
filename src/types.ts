@@ -65,3 +65,12 @@ export type GenreObject = {
 export type ObjectWithStringValues = {
     [key: string]: string
 }
+
+
+// for api call
+export type GameDataOptions = {
+    pageSize: number
+    platforms: string[]
+    genre: string | null
+    minRating: number | null
+}

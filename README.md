@@ -37,3 +37,17 @@ export default {
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
 
 
+
+
+## Up next:
+
+- Console page
+Make consoles scroll horizontally
+Create Price Range slider
+Create Xbox and Nintendo data that can be used to render the console page - bannerObjects, consoleProducts, filterOptions index = 0 dropdown, and get console strip images for product card
+
+- Product Page
+Design and create Product page for video games/console items
+
+- Checkout page
+...

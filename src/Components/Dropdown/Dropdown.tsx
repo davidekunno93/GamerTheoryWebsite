@@ -1,5 +1,6 @@
-import { useEffect, useRef } from 'react'
+import { useContext, useEffect, useRef } from 'react'
 import './dropdown.scoped.css'
+import { DataContext } from '../../Context/DataProvider'
 
 type ItemsListItem = {
     itemName: string,
@@ -16,6 +17,7 @@ type DropdownProps = {
 }
 const Dropdown = ({ open, itemsList, pointerRef, pointerRefCurrent, onClose }: DropdownProps) => {
     if (!open) return null;
+    const { starImgs, numToRating } = useContext(DataContext);
 
     // handleClickOutside w/pointerRef
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -33,16 +35,24 @@ const Dropdown = ({ open, itemsList, pointerRef, pointerRefCurrent, onClose }: D
         window.addEventListener('click', hideOnClickOutside, true)
         return () => window.removeEventListener('click', hideOnClickOutside)
     }, []);
-    // handleClick + update parent
+
     const handleClick = (index: number) => {
         const clickFunction = itemsList[index].clickFunction.function;
         const params = itemsList[index].clickFunction.params;
         clickFunction(...params);
     };
 
-    // useEffect(() => {
-    //     console.log(itemsList)
-    // }, [])
+    const convertItemName = (itemName: string) => {
+        if (itemName.includes(":")) {
+            let instruction = itemName.split(": ")[0];
+            let data = itemName.split(": ")[1];
+            if (instruction === "star") {
+                return numToRating(parseInt(data));
+            };
+        };
+    };
+    
+
 
     return (
         <div ref={dropdownRef} className="dropdown">
@@ -53,7 +63,16 @@ const Dropdown = ({ open, itemsList, pointerRef, pointerRefCurrent, onClose }: D
                     onClick={() => item.clickFunction ? handleClick(index) : null}
                     className="option"
                 >
-                    <p className="title" style={{ color: item.textColor ?? "" }}>{item.itemName}</p>
+                    {item.itemName.includes(":") ?
+                        <div className="rating">
+                            {convertItemName(item.itemName)?.map((star: number, index: number) => {
+                                let starRender = star === 0 ? "noStar" : star === 1 ? "fullStar" : "halfStar"
+                                return <img key={index} src={starImgs[starRender]} alt="" className="star-img" />
+                            })}
+                        </div>
+                        :
+                        <p className="title" style={{ color: item.textColor ?? "" }}>{item.itemName}</p>
+                    }
                 </div>
             })}
 

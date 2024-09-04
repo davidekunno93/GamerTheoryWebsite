@@ -6,7 +6,10 @@ import { SearchBarProps } from '../../types';
 
 const SearchBar = ({ width, placeholder }: SearchBarProps) => {
     const [searchText, setSearchText] = useState<string>("");
-
+    useEffect(() => {
+        // console.log(searchText);
+    }, [searchText]);
+    
     return (
         <div className="inputBox-container">
             <div className="inputBox" style={{ width: width ?? "" }}>

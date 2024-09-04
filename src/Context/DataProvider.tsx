@@ -167,8 +167,9 @@ const DataProvider = (props: any) => {
     const getGames = (platforms: string[], page?: number) => {
         let platformIds = platformToPlatformId(platforms);
         let url = `https://api.rawg.io/api/games?&platforms=${platformIds.join(",")}&page_size=12${page ? `&page=${page}` : ""}&key=${import.meta.env.VITE_APP_RAWG_API_KEY}`
-        const response = axios.get(url)
+        const resp = axios.get(url)
             .then((response) => {
+                console.log(resp);
                 console.log(response);
                 return response.data;
             })
@@ -215,6 +216,27 @@ const DataProvider = (props: any) => {
         fullStar: "https://i.imgur.com/3eEFOjj.png",
         halfStar: "https://i.imgur.com/gL5QY1I.png",
     };
+    const numToRating = (num: number): number[] => {
+        if (num >= 4.75) {
+            return [1, 1, 1, 1, 1];
+        };
+        if (num < 0.25) {
+            return [0, 0, 0, 0, 0];
+        };
+
+        let ratingArr: number[] = [];
+        for (let i = 0; i < 5; i++) {
+            if (num >= 0.75) {
+                ratingArr.push(1);
+            } else if (num < 0.25) {
+                ratingArr.push(0);
+            } else {
+                ratingArr.push(0.5);
+            };
+            num -= 1;
+        };
+        return ratingArr;
+    };
     const convertPlatformsToString = (platformsObjectArr: PlatformObject[]): string => {
         let platformsArr = [];
         for (let i = 0; i < platformsObjectArr.length; i++) {
@@ -232,7 +254,7 @@ const DataProvider = (props: any) => {
 
     return (
         <DataContext.Provider value={{ textFunctions, timeFunctions, wait, gIcon, platformToPlatformId, 
-        starImgs, getGames, getGenre, convertPlatformsToString }}>
+        starImgs, getGames, getGenre, convertPlatformsToString, numToRating }}>
             {props.children}
         </DataContext.Provider>
     )
