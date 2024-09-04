@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import HeroSection from '../../Components/HeroSection/HeroSection'
 import './dashboard.scoped.css'
 
@@ -8,7 +9,7 @@ export const Dashboard = () => {
     {
       franchiseName: "playstation",
       bannerUrl: "https://i.imgur.com/JkvRLyr.png",
-      pageLink: "",
+      pageLink: "/console",
     },
     {
       franchiseName: "xbox",
@@ -33,7 +34,7 @@ export const Dashboard = () => {
       imgUrl: "https://i.imgur.com/mzBN0cS.jpg",
       text: "Browse hot deals on the newest playstation exlusive video games",
       btnText: "Shop Now",
-      link: "",
+      link: "/console",
     },
     {
       title: "Xbox Video Games",
@@ -63,11 +64,11 @@ export const Dashboard = () => {
         let isEven = (index + 1) % 2 === 0
         return <div className={`section ${isEven ? "even" : "odd"}`}>
           <div className="bannerDiv">
-            <div className="banner" style={{ backgroundImage: `url(${franchise.bannerUrl})` }}>
+            <Link to={franchise.pageLink}><div className="banner" style={{ backgroundImage: `url(${franchise.bannerUrl})` }}>
               <div className="see-more-link">
                 <p>VIEW PRODUCTS</p>
               </div>
-            </div>
+            </div></Link>
           </div>
         </div>
       })}

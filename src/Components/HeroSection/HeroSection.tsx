@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import './herosection.scoped.css'
 import { HeroSectionProps } from '../../types';
+import { Link } from 'react-router-dom';
 
 
 const HeroSection = ({ bannerObjects, bottomGradient }: HeroSectionProps) => {
@@ -38,7 +39,7 @@ const HeroSection = ({ bannerObjects, bottomGradient }: HeroSectionProps) => {
                 {bannerObjects.map((banner, index) => {
                     return <div key={index} className="carousel-item-top position-relative">
                         <img src={banner.imgUrl} alt="" className="hero-img" style={{ objectPosition: banner.objectPosition ?? "" }} />
-                        <button className="hero-btn">{banner.btnText}</button>
+                        <Link to={banner.link}><button className="hero-btn">{banner.btnText}</button></Link>
                         <div className="caption">
                             <p className='title'>{banner.title ?? ""}</p>
                             <p className='text'>{banner.text ?? ""}</p>
