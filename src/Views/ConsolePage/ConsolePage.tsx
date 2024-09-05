@@ -6,6 +6,7 @@ import ProductCard from "../../Components/ProductCard/ProductCard";
 import Dropdown from "../../Components/Dropdown/Dropdown";
 import RatingOnly from "../../Components/RatingsDisplay/RatingOnly";
 import { GameDataOptions } from "../../types";
+import ProductSlider from "../../Components/ProductSlider/ProductSlider";
 
 const ConsolePage = () => {
     const { gIcon } = useContext(DataContext);
@@ -496,16 +497,10 @@ const ConsolePage = () => {
             {/* console/hardware slide */}
             <div className="section column whitesmoke">
                 <h1 className="heading">Consoles</h1>
-                <div className="product-slider">
-                    {consoleProducts.map((console, index) => {
-                        return <ProductCard
-                            index={index}
-                            productType="console"
-                            console={console}
-                        />
-                    })}
-
-                </div>
+                <ProductSlider
+                    products={consoleProducts}
+                    productType="console"
+                />
             </div>
 
             {/* shop video games/accessories */}

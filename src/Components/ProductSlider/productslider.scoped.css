@@ -1,0 +1,53 @@
+.ps-container {
+    width: 100%;
+    position: relative;
+}
+.ps-container>button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: whitesmoke;
+    border: 1px solid gainsboro;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.04);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 72px;
+    width: 72px;
+    border-radius: 50%;
+    z-index: 1;
+    transition: 0.2s;
+}
+.ps-container>button>span {
+    font-size: 48px;
+}
+.ps-container>button:hover {
+    background-color: rgb(235, 235, 235);
+}
+.ps-container>button[data-hidden="true"] {
+    opacity: 0;
+    visibility: hidden;
+}
+.ps-container>button.push-right {
+    right: -24px;
+}
+.ps-container>button.push-left {
+    left: -24px;
+}
+.ps-window {
+    width: 100%;
+    overflow: hidden;
+}
+.ps-inner {
+    white-space: nowrap;
+    width: min-content;
+    transition: 0.4s;
+    display: flex;
+    flex-direction: row;
+}
+
+.product-slider {
+    display: flex;
+    gap: 48px;
+    align-items: flex-end;
+}

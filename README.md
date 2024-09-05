@@ -42,10 +42,10 @@ export default {
 ## Up next:
 
 - Console page
-Make consoles scroll horizontally
+Make consoles scroll horizontally -- modularize
+*Create Xbox and Nintendo data that can be used to render the console page - bannerObjects, consoleProducts, filterOptions index = 0 dropdown, and get console strip images for product card
 On load, smooth scroll to after hero section
 Create Price Range slider
-Create Xbox and Nintendo data that can be used to render the console page - bannerObjects, consoleProducts, filterOptions index = 0 dropdown, and get console strip images for product card
 Change hero section dot colors for each console. PS = blue, Xbox = green, Nintendo = red
 
 - Product Page
