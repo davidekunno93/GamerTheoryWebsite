@@ -1,11 +1,13 @@
 import axios from "axios";
-import { createContext } from "react"
-import { GenreObject, PlatformObject } from "../types";
+import { createContext, useEffect, useState } from "react"
+import { ConsoleName, GenreObject, PlatformObject, Product } from "../types";
+import { useNavigate } from "react-router-dom";
 
 const DataProvider = (props: any) => {
+    const navigate = useNavigate();
     // helper shorthands
     const gIcon = "material-symbols-outlined";
-    
+
     // helper functions
     const textFunctions = {
         capitalize: function (str: string): string {
@@ -163,20 +165,70 @@ const DataProvider = (props: any) => {
         return new Promise(resolve => setTimeout(resolve, ms))
     };
 
+    const createArrFromObjectKey = (arr: any[], key: string | string[]): any[] => {
+        let result = [];
+        if (typeof key === "string") {
+            for (let i = 0; i < arr.length; i++) {
+                result.push(arr[i][key]);
+            };
+        } else {
+            for (let i = 0; i < arr.length; i++) {
+                let pathLocation: any = arr[i];
+                for (let j = 0; j < key.length; j++) {
+                    pathLocation = pathLocation[key[j]]
+                    if (j === key.length - 1) {
+                        result.push(pathLocation);
+                    };
+                };
+            };
+        };
+        return result;
+    };
     // get functions
-    const getGames = (platforms: string[], page?: number) => {
+    const getGames = async (platforms: string[], page?: number) => {
         let platformIds = platformToPlatformId(platforms);
         let url = `https://api.rawg.io/api/games?&platforms=${platformIds.join(",")}&page_size=12${page ? `&page=${page}` : ""}&key=${import.meta.env.VITE_APP_RAWG_API_KEY}`
-        const resp = axios.get(url)
-            .then((response) => {
-                console.log(resp);
-                console.log(response);
-                return response.data;
-            })
-            .catch((error) => {
-                console.log(error);
-                return null;
-            })
+        const response = await axios.get(url)
+        return handleGameData(response.data);
+        // .then((response) => {
+        //     console.log(resp);
+        //     console.log(response);
+
+        //     return data;
+        //     // return response.data;
+        // })
+        // .catch((error) => {
+        //     console.log(error);
+        //     return null;
+        // })
+    };
+    const handleGameData = async (data: any) => {
+        let result: any = [];
+        for (let game of data.results) {
+            result.push({
+                // copy keys
+                name: game.name,
+                background_image: game.background_image,
+                genres: game.genres,
+                playtime: game.playtime,
+                rating: game.rating,
+                ratings_count: game.ratings_count,
+                // none-copy keys
+                hot: game.added_by_status.owned >= 10000,
+                sale: parseInt(game.released.split("-")[0]) <= 2014,
+                price: "$69.99",
+                productType: "video-game",
+                gameDeveloper: "Santa Monica Studios",
+                esrb_rating: game.esrb_rating ? game.esrb_rating.name : "None",
+                gameId: game.id,
+                consoles: createArrFromObjectKey(game.platforms, ["platform", "name"]),
+                imgReel: createArrFromObjectKey(game.short_screenshots, "image"),
+                // onConsole
+                // favorite
+            });
+        };
+        console.log("data: ", result);
+        return result;
     };
 
     // product functions
@@ -252,9 +304,122 @@ const DataProvider = (props: any) => {
         return genreArr.join(":");
     };
 
+    // product page
+    type ProductControls = {
+        isNavigating: boolean
+        selectedProduct: Product | null
+    };
+    const [productControls, setProductControls] = useState<ProductControls>({
+        isNavigating: false,
+        selectedProduct: null,
+    });
+    const instanceOfProduct = (object: any): object is Product => {
+        return 'member' in object;
+    };
+    const productPageFunctions = {
+        viewProduct: function (product: Product, consoleName?: ConsoleName) {
+            if (product.productType === "video-game") {
+                // for video-games console name is required
+                if (consoleName) {
+                    let productCopy = { ...product, onConsole: consoleName };
+                    product = productCopy;
+                };
+            };
+            console.log(product);
+            setProductControls({ ...productControls, selectedProduct: product, isNavigating: true });
+        },
+        updateProduct: function (key: string, value: string | number | null) {
+            let updatedProduct: any = { ...productControls.selectedProduct };
+            // let displacedValue = productControls.selectedProduct[key]
+            updatedProduct[key] = value;
+            if (instanceOfProduct(updatedProduct)) {
+                setProductControls({ ...productControls, selectedProduct: updatedProduct })
+            };
+        },
+    };
+    useEffect(() => {
+        if (productControls.selectedProduct && productControls.isNavigating) {
+            navigate('/product');
+            setProductControls({ ...productControls, isNavigating: false });
+        };
+    }, [productControls.selectedProduct]);
+
+
+    // test data
+    const testGameProduct: Product = {
+        gameDeveloper: "Rockstar Games",
+        productType: "video-game",
+        name: "Grand Theft Auto V",
+        background_image: "https://media.rawg.io/media/games/737/737ea5662211d2e0bbd6f5989189e4f1.jpg",
+        genres: [
+            {
+                id: 4,
+                name: "Action",
+            }
+        ],
+        rating: 4.47,
+        esrb_rating: "18+",
+        ratings_count: 6860,
+        consoles: [
+            'PC', 'PlayStation 5', 'PlayStation 4', 'Xbox One', 'Nintendo'
+        ],
+        price: "$69.99",
+        playtime: 126,
+        imgReel: [
+            'https://i.imgur.com/ZStckzM.jpg',
+            'https://i.imgur.com/yaoZCJi.png',
+            'https://i.imgur.com/MiC1pkn.png',
+            'https://i.imgur.com/YA9kNGf.jpg',
+            'https://i.imgur.com/YA9kNGf.jpg',
+            'https://i.imgur.com/YA9kNGf.jpg',
+            'https://i.imgur.com/YA9kNGf.jpg',
+            'https://i.imgur.com/YA9kNGf.jpg',
+        ],
+        favorite: false,
+        onConsole: "PlayStation 4",
+        gameId: "GAME-ID-FROM-API",
+    };
+    const testGameProduct2: Product = {
+        name: "God of War: Ragnorak",
+        imgReel: [
+            'https://i.imgur.com/ZStckzM.jpg',
+            'https://i.imgur.com/yaoZCJi.png',
+            'https://i.imgur.com/MiC1pkn.png',
+            'https://i.imgur.com/YA9kNGf.jpg',
+            'https://i.imgur.com/YA9kNGf.jpg',
+            'https://i.imgur.com/YA9kNGf.jpg',
+            'https://i.imgur.com/YA9kNGf.jpg',
+            'https://i.imgur.com/YA9kNGf.jpg',
+        ],
+        price: "$69.99",
+        playtime: 70,
+        productType: "video-game",
+        gameDeveloper: "Santa Monica Studios",
+        background_image: "https://i.imgur.com/ZStckzM.jpg",
+        genres: [
+            {
+                id: 4,
+                name: 'Action',
+            }
+        ],
+        rating: 4.6,
+        ratings_count: 91,
+        esrb_rating: "18+",
+        consoles: [
+            'PC', 'PlayStation 5', 'PlayStation 4', 'Xbox One', 'Nintendo'
+        ],
+        favorite: false,
+        onConsole: "PlayStation 5",
+        gameId: "GAME-ID-FROM-API",
+    };
+
     return (
-        <DataContext.Provider value={{ textFunctions, timeFunctions, wait, gIcon, platformToPlatformId, 
-        starImgs, getGames, getGenre, convertPlatformsToString, numToRating }}>
+        <DataContext.Provider value={{
+            textFunctions, timeFunctions, wait, gIcon, platformToPlatformId,
+            starImgs, getGames, getGenre, convertPlatformsToString, numToRating,
+            selectedProduct: productControls.selectedProduct, productPageFunctions,
+            testGameProduct, testGameProduct2
+        }}>
             {props.children}
         </DataContext.Provider>
     )

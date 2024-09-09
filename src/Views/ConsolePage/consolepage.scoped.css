@@ -16,9 +16,40 @@
     flex-direction: row;
 }
 
-.section.whitesmoke {
+.section.light {
+    background-color: white;
+}
+.section.dark {
     background-color: whitesmoke;
 }
+
+
+[data-platform="playstation"] .section.dark,
+[data-platform="playstation"] .products-container {
+    background-color: whitesmoke;
+}
+
+[data-platform="xbox"] .section.dark,
+[data-platform="xbox"] .products-container {
+    background-color: rgb(230, 248, 217);
+}
+
+[data-platform="nintendo"] .section.dark,
+[data-platform="nintendo"] .products-container {
+    background-color: rgb(255, 240, 240);
+}
+
+
+[data-platform="playstation"] h1 {
+    color: rgb(0, 0, 0);
+}
+[data-platform="xbox"] h1 {
+    color: darkgreen;
+}
+[data-platform="nintendo"] h1 {
+    color: red;
+}
+
 
 /* .section .heading {
 } */

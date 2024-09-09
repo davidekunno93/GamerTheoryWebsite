@@ -13,19 +13,18 @@ type DropdownProps = {
     itemsList: ItemsListItem[]
     pointerRef?: any
     pointerRefCurrent?: any
+    fontSize?: number
     onClose: () => void
 }
-const Dropdown = ({ open, itemsList, pointerRef, pointerRefCurrent, onClose }: DropdownProps) => {
-    if (!open) return null;
+const Dropdown = ({ open, itemsList, pointerRef, pointerRefCurrent, fontSize, onClose }: DropdownProps) => {
     const { starImgs, numToRating } = useContext(DataContext);
-
+    
     // handleClickOutside w/pointerRef
     const dropdownRef = useRef<HTMLDivElement>(null);
     const hideOnClickOutside = (e: any) => {
         if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
             if (!pointerRef || (pointerRef.current && !pointerRef.current.contains(e.target))) {
                 if (!pointerRefCurrent || !pointerRefCurrent.contains(e.target)) {
-                    console.log(pointerRefCurrent)
                     onClose();
                 };
             };
@@ -41,7 +40,7 @@ const Dropdown = ({ open, itemsList, pointerRef, pointerRefCurrent, onClose }: D
         const params = itemsList[index].clickFunction.params;
         clickFunction(...params);
     };
-
+    
     const convertItemName = (itemName: string) => {
         if (itemName.includes(":")) {
             let instruction = itemName.split(": ")[0];
@@ -52,10 +51,11 @@ const Dropdown = ({ open, itemsList, pointerRef, pointerRefCurrent, onClose }: D
         };
     };
     
-
-
+    
+    
+    if (!open) return null;
     return (
-        <div ref={dropdownRef} className="dropdown">
+        <div ref={dropdownRef} onClick={(e) => e.stopPropagation()} className="dropdown">
             <div className="header"></div>
             {itemsList.map((item, index: number) => {
                 return <div
@@ -71,7 +71,7 @@ const Dropdown = ({ open, itemsList, pointerRef, pointerRefCurrent, onClose }: D
                             })}
                         </div>
                         :
-                        <p className="title" style={{ color: item.textColor ?? "" }}>{item.itemName}</p>
+                        <p className="title" style={{ color: item.textColor ?? "", fontSize: fontSize ? fontSize+"px" : "" }}>{item.itemName}</p>
                     }
                 </div>
             })}

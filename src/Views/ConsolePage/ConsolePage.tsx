@@ -5,92 +5,206 @@ import { DataContext } from "../../Context/DataProvider";
 import ProductCard from "../../Components/ProductCard/ProductCard";
 import Dropdown from "../../Components/Dropdown/Dropdown";
 import RatingOnly from "../../Components/RatingsDisplay/RatingOnly";
-import { GameDataOptions } from "../../types";
+import { GameDataOptions, PaginationControlObject } from "../../types";
 import ProductSlider from "../../Components/ProductSlider/ProductSlider";
+import { useParams } from "react-router-dom";
 
 const ConsolePage = () => {
-    const { gIcon } = useContext(DataContext);
-    const bannerObjects = [
-        {
-            // title: "",
-            imgUrl: "https://i.imgur.com/r4K98Bv.jpg",
-            // text: null,
-            btnText: "Buy FC24",
-            link: "",
-        },
-        {
-            title: "God of War Ragnarok",
-            imgUrl: "https://i.imgur.com/YA9kNGf.jpg",
-            text: "Join Kratos and Atreus on a mythic journey for answers before Ragnarök arrives",
-            btnText: "Buy God of War Ragnarok",
-            link: "",
-            // objectPosition: "top",
-        },
-        {
-            title: "The Last of Us: Part II",
-            imgUrl: "https://i.imgur.com/nYW0CWK.jpg",
-            text: "Ellie embarks on another journey through a post-apocalyptic America on a mission of vengeance against a mysterious militia.",
-            btnText: "Buy The Last of Us: Part II",
-            link: "",
-            objectPosition: "left",
-        },
-        {
-            // title: null,
-            imgUrl: "https://i.imgur.com/6hdiCyN.png",
-            // text: null,
-            btnText: "Buy Ratchet & Clank Rift Apart",
-            link: "",
-            objectPosition: "left",
-        },
-        {
-            title: "PS5 Disc Edition vs Digital Edition",
-            imgUrl: "https://i.imgur.com/n4wIsEh.jpg",
-            text: "With a disc-drive PS5, games can be installed from physical discs or via digital downloads. However, the digital-edition PS5 is digital downloads only",
-            btnText: "Buy Sony Playstation 5",
-            link: "",
-        },
+    const { gIcon, textFunctions, testGameProduct} = useContext(DataContext);
 
-    ];
-    const consoleProducts = [
-        {
-            productMake: "Sony Interactive Entertainment",
-            productName: "Playstation 5 Slim Disc Edition",
-            price: "$499.99",
-            imgUrl: "https://i.imgur.com/JOF0w0U.png",
-            link: "",
-        },
-        {
-            productMake: "Sony Interactive Entertainment",
-            productName: "Playstation 5 Slim Digital Edition",
-            price: "$449.99",
-            imgUrl: "https://i.imgur.com/aJcmSy3.jpg",
-            link: "",
-        },
-        {
-            productMake: "Sony Interactive Entertainment",
-            productName: "Playstation 4 Pro 1TB",
-            price: "$299.99",
-            imgUrl: "https://i.imgur.com/LcskKrm.png",
-            link: "",
-        },
-        {
-            productMake: "Sony Interactive Entertainment",
-            productName: "Playstation 4 Slim 500GB",
-            price: "$279.99",
-            imgUrl: "https://i.imgur.com/wPN1D2d.png",
-            link: "",
-        },
-    ];
+    const { platform } = useParams<any>();
+    const consolePageLibrary: any = {
+        'playstation': {
+            name: 'playstation',
+            consoles: ['PlayStation 5', 'PlayStation 4'],
+            bannerObjects: [
+                {
+                    imgUrl: "https://i.imgur.com/r4K98Bv.jpg",
+                    btnText: "Buy FC24",
+                    link: "",
+                },
+                {
+                    title: "God of War Ragnarok",
+                    imgUrl: "https://i.imgur.com/YA9kNGf.jpg",
+                    text: "Join Kratos and Atreus on a mythic journey for answers before Ragnarök arrives",
+                    btnText: "Buy God of War Ragnarok",
+                    link: "",
+                    // objectPosition: "top",
+                },
+                {
+                    title: "The Last of Us: Part II",
+                    imgUrl: "https://i.imgur.com/nYW0CWK.jpg",
+                    text: "Ellie embarks on another journey through a post-apocalyptic America on a mission of vengeance against a mysterious militia.",
+                    btnText: "Buy The Last of Us: Part II",
+                    link: "",
+                    objectPosition: "left",
+                },
+                {
+                    // title: null,
+                    imgUrl: "https://i.imgur.com/6hdiCyN.png",
+                    // text: null,
+                    btnText: "Buy Ratchet & Clank Rift Apart",
+                    link: "",
+                    objectPosition: "left",
+                },
+                {
+                    title: "PS5 Disc Edition vs Digital Edition",
+                    imgUrl: "https://i.imgur.com/n4wIsEh.jpg",
+                    text: "With a disc-drive PS5, games can be installed from physical discs or via digital downloads. However, the digital-edition PS5 is digital downloads only",
+                    btnText: "Buy Sony PlayStation 5",
+                    link: "",
+                },
 
+            ],
+            consoleProducts: [
+                {
+                    productMake: "Sony Interactive Entertainment",
+                    name: "PlayStation 5 Slim Disc Edition",
+                    price: "$499.99",
+                    imgUrl: "https://i.imgur.com/JOF0w0U.png",
+                    link: "",
+                },
+                {
+                    productMake: "Sony Interactive Entertainment",
+                    name: "PlayStation 5 Slim Digital Edition",
+                    price: "$449.99",
+                    imgUrl: "https://i.imgur.com/aJcmSy3.jpg",
+                    link: "",
+                },
+                {
+                    productMake: "Sony Interactive Entertainment",
+                    name: "PlayStation 4 Pro 1TB",
+                    price: "$299.99",
+                    imgUrl: "https://i.imgur.com/LcskKrm.png",
+                    link: "",
+                },
+                {
+                    productMake: "Sony Interactive Entertainment",
+                    name: "PlayStation 4 Slim 500GB",
+                    price: "$279.99",
+                    imgUrl: "https://i.imgur.com/wPN1D2d.png",
+                    link: "",
+                },
+            ],
+        },
+        'xbox': {
+            name: 'xbox',
+            consoles: ['Xbox Series X', 'Xbox One'],
+            bannerObjects: [
+                {
+                    imgUrl: "https://i.imgur.com/3AGebBo.png",
+                    btnText: "Buy Xbox Series X",
+                    link: "",
+                },
+                {
+                    imgUrl: "https://i.imgur.com/7Ro7SCi.jpg",
+                    btnText: "Buy Call of Duty: Black Ops 6",
+                    link: "",
+                },
+                {
+                    imgUrl: "https://i.imgur.com/yL2O1oX.jpg",
+                    btnText: "Buy Assassin's Creed: Shadows",
+                    link: "",
+                },
+                {
+                    imgUrl: "https://i.imgur.com/io8qVRR.jpg",
+                    btnText: "Buy Forza Horizon 5",
+                    title: "Forza Horizon 5",
+                    text: "Forza Horizon 5 is a racing video game set in an open world environment based in a fictional representation of Mexico",
+                    link: "",
+                },
+            ],
+            consoleProducts: [
+                {
+                    productMake: "Microsoft",
+                    name: "Xbox Series X 1TB",
+                    price: "$499.99",
+                    imgUrl: "https://i.imgur.com/H65yNiT.png",
+                    link: "",
+                },
+                {
+                    productMake: "Microsoft",
+                    name: "Xbox One S 1TB",
+                    price: "$449.99",
+                    imgUrl: "https://i.imgur.com/WVpHH0m.png",
+                    link: "",
+                },
+                {
+                    productMake: "Microsoft",
+                    name: "Xbox One X 1TB (Renewed)",
+                    price: "$154.99",
+                    imgUrl: "https://i.imgur.com/X78WguU.png",
+                    link: "",
+                },
+            ],
+        },
+        'nintendo': {
+            name: 'nintendo',
+            consoles: ['Nintendo Switch'],
+            bannerObjects: [
+                {
+                    imgUrl: "https://i.imgur.com/ArzkJmo.png",
+                    btnText: "Buy Nintendo Switch",
+                    link: "",
+                },
+                {
+                    imgUrl: "https://i.imgur.com/127AoRN.jpg",
+                    btnText: "Buy Mario Kart Deluxe",
+                    link: "",
+                },
+                {
+                    imgUrl: "https://i.imgur.com/hJMrfb7.jpg",
+                    btnText: "Buy Mario Party Superstars",
+                    link: "",
+                },
+                {
+                    imgUrl: "https://i.imgur.com/C3ur0D0.png",
+                    btnText: "Buy Zelda: Tears of the Kingdom",
+                    title: "Zelda: Tears of the Kingdom",
+                    text: "Link and Zelda set out to explore the cavern beneath Hyrule Castle",
+                    link: "",
+                    objectPosition: "top",
+                },
 
+            ],
+            consoleProducts: [
+                {
+                    productMake: "Nintendo",
+                    name: "Nintendo Switch",
+                    price: "$349.99",
+                    imgUrl: "https://i.imgur.com/tW11rZ0.png",
+                    link: "",
+                },
+            ],
+        },
+    };
 
-
+    // page setting variables
+    const bannerObjects = platform ? consolePageLibrary[platform].bannerObjects : null;
+    const consoleProducts = platform ? consolePageLibrary[platform].consoleProducts : null;
+    const updateFilterOptionsConsoleDropdown = () => {
+        if (platform) {
+            let filterOptionsCopy = [...filterOptions];
+            filterOptionsCopy[0].dropdown.selectedItem = consolePageLibrary[platform].consoles[0];
+            filterOptionsCopy[0].dropdown.selectedItem = consolePageLibrary[platform].consoles[0];
+            let itemsList = [];
+            let consoleItems = consolePageLibrary[platform].consoles;
+            for (let i = 0; i < consoleItems.length; i++) {
+                itemsList.push({
+                    itemName: consoleItems[i],
+                    clickFunction: {
+                        function: filterOptionsDropdownFunctions.selectItem,
+                        params: [consoleItems[i], 0],
+                    }
+                });
+            };
+            filterOptionsCopy[0].dropdown.itemsList = itemsList;
+            setFilterOptions(filterOptionsCopy);
+        };
+    };
     useEffect(() => {
-        // getGames(["ps5"]);
-        paginationFunctions.initiatePaginationControl(7132);
-        // console.log(platformToPlatformId(["playstation4", "ps5", "xboxone", "xboxseriesx", "nintendo", "pc"]));
-        // console.log(renderRating(testGameObject.rating))
-    }, []);
+        updateFilterOptionsConsoleDropdown();
+    }, [platform]);
 
 
 
@@ -98,50 +212,22 @@ const ConsolePage = () => {
 
 
     // test data
-    const testGameObject = {
-        name: "Grand Theft Auto V",
-        background_image: "https://media.rawg.io/media/games/737/737ea5662211d2e0bbd6f5989189e4f1.jpg",
-        genres: [
-            {
-                id: 4,
-                name: "Action",
-            }
-        ],
-        rating: 4.47,
-        ratings_count: 6860,
-        platforms: [
-            {
-                id: 4,
-                name: "PC",
-                slug: "pc",
-            },
-            {
-                id: 18,
-                name: "PlayStation 4",
-                slug: "playstation4",
-            },
-            {
-                id: 187,
-                name: "PlayStation 5",
-                slug: "playstation5",
-            },
-            {
-                id: 7,
-                name: "Nintendo",
-                slug: "nintendo",
-            },
-        ],
-        price: "$59.99",
-        favorite: false,
-    };
-    const videoGames = [testGameObject];
+    const videoGames = [testGameProduct];
     // const [videoGames, setVideoGames] = useState<any>([
     //     testGameObject
     // ]);
 
-
-
-    // get game data
+    // const loadData = async () => {
+    //     const gameData = await getGames(['PS5']);
+    //     setVideoGames(gameData);
+    // };
+    // get video game data
+    useEffect(() => {
+        // setVideoGames(getGames(["ps5"]));
+        // loadData();
+        paginationFunctions.initiatePaginationControl(7132);
+        // console.log(platformToPlatformId(["playstation4", "ps5", "xboxone", "xboxseriesx", "nintendo", "pc"]));
+    }, []);
     const [gameDataOptions, setGameDataOptions] = useState<GameDataOptions>({
         pageSize: 12,
         platforms: ["PS5"],
@@ -151,6 +237,7 @@ const ConsolePage = () => {
     useEffect(() => {
         console.log(gameDataOptions);
     }, [gameDataOptions.platforms, gameDataOptions.genre, gameDataOptions.minRating]);
+
 
     // filter options code
     const filterOptionsPointerRefs = useRef<HTMLDivElement[]>([]);
@@ -324,7 +411,6 @@ const ConsolePage = () => {
             }
         },
     ]);
-
     const filterFunctions = {
         filterOptionsTransformer: function (index: number, data: string | null) {
             // if index = 0 - update platforms (string)
@@ -370,15 +456,8 @@ const ConsolePage = () => {
         },
     };
 
-    type PaginationControlObject = {
-        ready: boolean
-        isLoaded: boolean
-        resultsCount: number
-        firstPage: number
-        lastPage: number
-        currentPage: number
-        displayedPages: number[]
-    };
+
+    // video games pagination code
     const [paginationControl, setPaginationControl] = useState<PaginationControlObject>({
         ready: false,
         isLoaded: false,
@@ -486,17 +565,16 @@ const ConsolePage = () => {
     }, [paginationControl, paginationControl.currentPage]);
 
 
-
     return (
-        <>
+        <div data-platform={platform}>
             {/* banner */}
             <HeroSection
                 bannerObjects={bannerObjects}
                 bottomGradient
             />
             {/* console/hardware slide */}
-            <div className="section column whitesmoke">
-                <h1 className="heading">Consoles</h1>
+            <div className="section column dark">
+                <h1 className="heading">{textFunctions.capitalize(platform)} Consoles</h1>
                 <ProductSlider
                     products={consoleProducts}
                     productType="console"
@@ -504,9 +582,9 @@ const ConsolePage = () => {
             </div>
 
             {/* shop video games/accessories */}
-            <div className="section column">
+            <div className="section column light">
                 <h1 className="heading">
-                    Playstation Games
+                    {textFunctions.capitalize(platform)} Games
                 </h1>
                 <div className="filter-options">
                     {filterOptions.map((option, index) => {
@@ -532,21 +610,30 @@ const ConsolePage = () => {
                         </div>
                     })}
                     <div className="filter-option">
+                        <label htmlFor={`option-dropper`}>ESRB</label>
+                        <div id={`option-dropper`} className="option-dropper">
+                            <p>Everyone</p>
+                            <span className={gIcon + " arrow"}>keyboard_arrow_down</span>
+                        </div>
+                    </div>
+                    {/* <div className="filter-option">
                         <label htmlFor={`option-dropper`}>Price Range</label>
                         <div id={`option-dropper`} className="option-dropper">
                             <p>$ ...</p>
                             <span className={gIcon + " arrow"}>keyboard_arrow_down</span>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
+                <p className="gray-text">{paginationControl.resultsCount ?? "896"} results</p>
                 <div className="products-section">
                     <div className="products-container">
                         {videoGames.map((game: any, index: number) => {
-                            return <ProductCard
+                            return platform && <ProductCard
+                                key={index}
                                 index={index}
                                 productType="video-game"
                                 game={game}
-                                platform="ps5"
+                                consoleName={filterOptions[0].dropdown.selectedItem}
                             />
                         })}
                     </div>
@@ -581,7 +668,7 @@ const ConsolePage = () => {
                 </div>
 
             </div>
-        </>
+        </div>
     )
 }
 export default ConsolePage;

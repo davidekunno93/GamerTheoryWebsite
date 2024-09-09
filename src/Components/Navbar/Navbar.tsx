@@ -24,15 +24,15 @@ const Navbar = ({ setSidePanelOpen }: NavbarProps) => {
   const subNavOptions: SubNavOption[] = [
     {
       itemName: "PLAYSTATION",
-      link: "/console",
+      link: "/console/playstation",
     },
     {
       itemName: "XBOX",
-      link: "",
+      link: "/console/xbox",
     },
     {
       itemName: "NINTENDO",
-      link: "",
+      link: "/console/nintendo",
     },
     {
       itemName: "PC",

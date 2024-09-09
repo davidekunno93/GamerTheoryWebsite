@@ -9,15 +9,19 @@
     border-radius: 4px;
     border: 1px solid gainsboro;
     box-sizing: border-box;
-    padding: 4px 0px;
+    padding: 4px;
 }
+
 .dropdown .option {
-    padding: 4px 8px;
+    padding: 0px 8px;
+    height: 28px;
+    border-radius: 2px;
     display: flex;
     align-items: center;
     gap: 4px;
     cursor: pointer;
 }
+
 .dropdown .option:hover {
-    background-color: whitesmoke;
+    background-color: rgb(240, 240, 240);
 }

@@ -9,37 +9,51 @@ export const Dashboard = () => {
     {
       franchiseName: "playstation",
       bannerUrl: "https://i.imgur.com/JkvRLyr.png",
-      pageLink: "/console",
+      pageLink: "/console/playstation",
     },
     {
       franchiseName: "xbox",
       bannerUrl: "https://i.imgur.com/JjwIUgY.jpg",
-      pageLink: ""
+      pageLink: "/console/xbox"
     },
     {
       franchiseName: "nintendo",
       bannerUrl: "https://i.imgur.com/qkGNylI.jpg",
-      pageLink: ""
+      pageLink: "/console/nintendo"
     },
     {
       franchiseName: "pokemon",
       bannerUrl: "https://i.imgur.com/4w9gB0E.jpg",
       pageLink: ""
     },
-  ]
+  ];
 
   const bannerObjects = [
+    {
+      title: "Assassin's Creed: Shadows",
+      imgUrl: "https://i.imgur.com/LliWGsr.png",
+      text: "Shop the latest and greatest video games of all genres",
+      btnText: "Shop Now",
+      link: "",
+    },
+    {
+      // title: "Call of Duty: Black Ops 6",
+      imgUrl: "https://i.imgur.com/7Ro7SCi.jpg",
+      // text: "Shop the latest and greatest video games of all genres",
+      btnText: "Shop Call of Duty: Black Ops 6",
+      link: "",
+    },
     {
       title: "Playstation Exclusives",
       imgUrl: "https://i.imgur.com/mzBN0cS.jpg",
       text: "Browse hot deals on the newest playstation exlusive video games",
       btnText: "Shop Now",
-      link: "/console",
+      link: "/console/playstation",
     },
     {
-      title: "Xbox Video Games",
-      imgUrl: "https://i.imgur.com/bOVq5EY.jpg",
-      text: "Shop deals for Xbox video games of all genres",
+      title: "Forza Horizon 5",
+      imgUrl: "https://i.imgur.com/MiC1pkn.png",
+      text: "Shop the latest and greatest video games of all genres",
       btnText: "Shop Now",
       link: "",
     },
@@ -50,7 +64,7 @@ export const Dashboard = () => {
       btnText: "Browse Cards",
       link: "",
     },
-  ]
+  ];
 
   return (
     <>
@@ -62,7 +76,7 @@ export const Dashboard = () => {
 
       {consoleFranchises.map((franchise, index) => {
         let isEven = (index + 1) % 2 === 0
-        return <div className={`section ${isEven ? "even" : "odd"}`}>
+        return <div key={index} className={`section ${isEven ? "even" : "odd"}`}>
           <div className="bannerDiv">
             <Link to={franchise.pageLink}><div className="banner" style={{ backgroundImage: `url(${franchise.bannerUrl})` }}>
               <div className="see-more-link">

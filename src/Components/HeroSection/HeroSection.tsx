@@ -14,14 +14,14 @@ const HeroSection = ({ bannerObjects, bottomGradient }: HeroSectionProps) => {
         }
         changeIndexTimeout = setTimeout(incrementActiveIndex, 8000);
         return () => clearTimeout(changeIndexTimeout);
-    }, [activeIndex])
+    }, [activeIndex]);
     const incrementActiveIndex = () => {
         if (activeIndex < bannerObjects.length - 1) {
             setActiveIndex(activeIndex + 1);
         } else {
             setActiveIndex(0);
         }
-    }
+    };
 
     return (
         <div className="hero-section">

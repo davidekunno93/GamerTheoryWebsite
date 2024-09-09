@@ -1,49 +1,29 @@
 import { useContext } from 'react';
-import { GenreObject, ObjectWithStringValues, PlatformObject } from '../../types';
+import { ObjectWithStringValues, ProductCardProps } from '../../types';
 import RatingsDisplay from '../RatingsDisplay/RatingsDisplay';
 import './productcard.scoped.css'
 import { DataContext } from '../../Context/DataProvider';
 
-type ProductCardProps = {
-    index: number
-} & (ConsoleCardProps | VideoGameCardProps)
 
-type ConsoleCardProps = {
-    productType: "console"
-    console: any
-}
-type VideoGameCardProps = {
-    productType: "video-game"
-    game: Game
-    platform?: string
-}
-type Game = {
-    name: string
-    background_image: string
-    rating: number
-    ratings_count: number
-    platforms: PlatformObject[] | string
-    genres: GenreObject[] | string
-    price?: string
-    favorite?: boolean
-};
 
 
 const ProductCard = (props: ProductCardProps) => {
-    const { gIcon } = useContext(DataContext);
+    const { gIcon, productPageFunctions } = useContext(DataContext);
     const platformConsoleStrip: ObjectWithStringValues = {
-        ps5: "https://i.imgur.com/AXD5Q3th.jpg"
+        ps5: "https://i.imgur.com/AXD5Q3th.jpg",
+        "PlayStation 5": "https://i.imgur.com/AXD5Q3th.jpg",
     };
+
     return (
         <div key={props.index} className="product-card-container">
             {props.productType === "console" &&
-                <div className="product-card" data-cardVersion="console">
+                <div className="product-card" data-cardversion="console">
                     <div className="imgDiv">
                         <img src={props.console.imgUrl} alt="" className="img" />
                     </div>
                     <div className="head">
                         <p className="sub-title">{props.console.productMake}</p>
-                        <p className="title">{props.console.productName}</p>
+                        <p className="title">{props.console.name}</p>
                     </div>
                     <div className="footer">
                         <p className="price">{props.console.price}</p>
@@ -52,10 +32,10 @@ const ProductCard = (props: ProductCardProps) => {
                 </div>
             }
             {props.productType === "video-game" &&
-                <div className="product-card" data-cardVersion="video-game">
-                    <div className="imgDiv">
-                        {props.platform &&
-                            <img src={platformConsoleStrip[props.platform]} alt="" className="console-strip" />
+                <div className="product-card" data-cardversion="video-game" data-darkcard={props.darkCard ?? false}>
+                    <div onClick={() => productPageFunctions.viewProduct(props.game, props.consoleName)} className="imgDiv">
+                        {props.consoleName &&
+                            <img src={platformConsoleStrip[props.consoleName]} alt="" className="console-strip" />
                         }
                         <img src={props.game.background_image} alt="" className="video-game-img" />
                     </div>

@@ -1437,6 +1437,46 @@ p {
   outline: none;
 }
 
+button.cartBtn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 600;
+  background-color: rgb(245, 0, 0);
+  /* color: white; */
+  transition: 0.2s
+}
+button.cartBtn p,
+button.cartBtn span {
+  color: white;
+}
+button.cartBtn.wide {
+  width: 100%;
+}
+button.cartBtn:hover {
+  background-color: rgb(200, 0, 0);
+}
+button.favBtn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 600;
+  background-color: white;
+  border: 1px solid rgb(245, 0, 0);
+  transition: 0.2s;
+}
+button.favBtn p,
+button.favBtn span {
+  color: rgb(245, 0, 0);
+}
+button.favBtn.wide {
+  width: 100%;
+}
+button.favBtn:hover {
+  background-color: whitesmoke;
+}
 
 
 

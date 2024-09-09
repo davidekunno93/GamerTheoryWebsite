@@ -76,6 +76,7 @@
 }
 .dot.unselected {
     background-color: rgba(254, 189, 89, 0.2);
+    /* background-color: rgba(173, 255, 47, 0.2); */
     cursor: pointer;
 }
 .dot.selected {
@@ -90,10 +91,31 @@
     transition: 8s linear;
     border-radius: 6px;
 }
+[data-platform="playstation"] .dot.unselected,
+[data-platform="playstation"] .dot.selected {
+    background-color: rgba(93, 126, 255, 0.2); 
+}
+[data-platform="playstation"] .beam {
+    background-color: rgb(10, 49, 202);
+}
+[data-platform="xbox"] .dot.unselected,
+[data-platform="xbox"] .dot.selected {
+    background-color: rgba(173, 255, 47, 0.2);
+}
+[data-platform="xbox"] .beam {
+    background-color: greenyellow;
+}
+[data-platform="nintendo"] .dot.unselected,
+[data-platform="nintendo"] .dot.selected {
+    background-color: rgba(255, 72, 72, 0.2); 
+}
+[data-platform="nintendo"] .beam {
+    background-color: rgb(255, 0, 0);
+}
+
 .dot.unselected .beam {
     transition: 0s;
 }
 .dot.selected .beam {
     width: 100%;
-
 }

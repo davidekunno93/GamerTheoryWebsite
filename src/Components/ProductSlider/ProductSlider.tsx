@@ -6,9 +6,10 @@ import { DataContext } from '../../Context/DataProvider';
 type ProductSliderProps = {
     products: any
     productType: "console" | "video-game"
-    platform?: string
+    consoleName?: string
+    darkCard?: boolean
 }
-const ProductSlider = ({ products, productType, platform }: ProductSliderProps) => {
+const ProductSlider = ({ products, productType, consoleName, darkCard }: ProductSliderProps) => {
     const { gIcon } = useContext(DataContext);
     const productSliderWindowRef = useRef(null);
     const productSliderInnerRef = useRef(null);
@@ -59,7 +60,7 @@ const ProductSlider = ({ products, productType, platform }: ProductSliderProps) 
             if (windowWidth && innerWidth) {
                 productSliderControlsCopy.maxOffset = innerWidth - windowWidth;
             };
-            console.log(productSliderControlsCopy);
+            // console.log(productSliderControlsCopy);
             setProductSliderControls(productSliderControlsCopy);
         },
     };
@@ -87,16 +88,20 @@ const ProductSlider = ({ products, productType, platform }: ProductSliderProps) 
                         {products.map((product: any, index: number) => {
                             if (productType === "console") {
                                 return <ProductCard
+                                key={index}
                                 index={index}
                                 productType="console"
                                 console={product}
+                                darkCard={darkCard ?? false}
                                 />
                             } else if (productType === "video-game") {
                                 return <ProductCard
+                                key={index}
                                 index={index}
                                 productType="video-game"
                                 game={product}
-                                platform={platform ?? undefined}
+                                consoleName={consoleName ?? undefined}
+                                darkCard={darkCard ?? false}
                                 />                                
                             }
                         })}

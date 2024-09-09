@@ -1,10 +1,12 @@
 import { useContext } from "react"
 import { DataContext } from "../../Context/DataProvider"
+import './ratingsdisplay.scoped.css'
 
 type RatingOnlyProps = {
     rating: number
+    ratingsCount?: number
 }
-const RatingOnly = ({ rating }: RatingOnlyProps) => {
+const RatingOnly = ({ rating, ratingsCount }: RatingOnlyProps) => {
     const { starImgs, numToRating } = useContext(DataContext);
 
     return (
@@ -13,6 +15,9 @@ const RatingOnly = ({ rating }: RatingOnlyProps) => {
                 let starRender = star === 0 ? "noStar" : star === 1 ? "fullStar" : "halfStar"
                 return <img key={index} src={starImgs[starRender]} alt="" className="star-img" />
             })}
+            {ratingsCount &&
+                <p className="ratingsCount">({ratingsCount})</p>
+            }
         </div>
     )
 }

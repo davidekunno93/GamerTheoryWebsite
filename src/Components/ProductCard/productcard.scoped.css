@@ -18,15 +18,21 @@
     gap: 8px;
     transition: 0.2s;
 }
-.product-card[data-cardVersion="video-game"] {
+.product-card[data-darkcard="true"] {
+    background-color: whitesmoke;
+}
+.product-card[data-cardversion="video-game"] {
     width: 280px;
 }
 
-.product-card[data-cardVersion="console"]:hover {
+.product-card[data-cardversion="console"]:hover {
     transform: translateY(-4px);
 }
 .product-card:hover {
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.07);
+}
+.product-card[data-darkCard="true"]:hover {
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.2); 
 }
 .product-card .imgDiv {
     height: 60%;

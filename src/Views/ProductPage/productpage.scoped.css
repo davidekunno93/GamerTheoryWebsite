@@ -1,0 +1,167 @@
+.product-page {
+    display: flex;
+    flex-direction: column;
+}
+[data-hidden="true"] {
+    visibility: hidden;
+    opacity: 0;
+}
+.breadcrumbs-section {
+    padding: 12px;
+}
+.product-showcase {
+    display: flex;
+    flex-direction: row;
+    height: 600px;
+}
+.product-page .img-reel {
+    height: 100%;
+    flex: 1; 
+    padding: 64px 0px;
+    gap: 8px;
+    box-sizing: border-box;
+    position: relative;
+    background-color: whitesmoke;
+}
+.img-reel>button {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    border: 1px solid gainsboro;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.02);
+    background-color: rgba(255, 255, 255, 0.9);
+    transition: 0.2s;
+}
+.img-reel>button:hover {
+    background-color: whitesmoke;
+}
+.img-reel>button[data-hidden="true"] {
+    opacity: 0;
+    visibility: hidden;
+}
+.img-reel>button span {
+    font-size: 36px;
+}
+button.push-up {
+    top: 28px;
+}
+button.push-down {
+    bottom: 28px;
+}
+.img-reel .window {
+    height: 100%;
+    overflow: hidden;
+}
+.img-reel .inner {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    height: min-content;
+    transition: 0.3s;
+}
+.img-reel .imgDiv {
+    display: inline-flex;
+    height: 72px;
+    width: 108px;
+    overflow: hidden;
+    /* outline: salmon solid 2px; */
+    border-radius: 4px;
+}
+.img-reel .imgDiv img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.img-reel .imgDiv img:hover {
+    opacity: 0.8;;
+}
+
+.product-page .img-selectedDiv {
+    height: 100%;
+    flex: 6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: whitesmoke;
+}
+.img-selectedDiv img {
+    height: 75%;
+    width: 80%;
+    object-fit: contain;
+}
+.product-page .product-info {
+    height: 100%;
+    flex: 3;
+    color: black;
+    padding: 12px 48px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.product-info .developers-and-rating {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.product-info .developer,
+.product-info .creator {
+    color: gray;
+}
+.product-info .title,
+.product-info .price {
+    font-size: 36px;
+    font-weight: 600;
+}
+
+
+
+.platform-selector {
+    height: 60px;
+    border: 1px solid gainsboro;
+    border-radius: 8px;
+    padding: 12px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    position: relative;
+    transition: 0.2s;
+}
+.platform-selector:hover {
+    background-color: whitesmoke;
+}
+.platform-selector p.label {
+    font-size: 12px;
+    color: gray;
+}
+.platform-selector p.console {
+    font-weight: 500;
+}
+
+
+.similar-products-container {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    padding: 48px 24px;
+    box-sizing: border-box;
+}
+.more-like-this {
+    font-size: 30px;
+    margin: 24px 8px;
+    align-self: flex-start;
+    color: black;
+}

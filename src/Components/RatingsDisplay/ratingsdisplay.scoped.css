@@ -15,6 +15,10 @@
     align-items: center;
     gap: 4px;
 }
+.rating .ratingsCount {
+    font-size: 12px;
+    color: gray;
+}
 .star-img {
     height: 10px;
     width: 10px;
