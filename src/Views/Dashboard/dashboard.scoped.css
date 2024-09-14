@@ -21,6 +21,8 @@
     height: 30.3vw;
     width: 91vw;
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .banner {
     margin: auto;

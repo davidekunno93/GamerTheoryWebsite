@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react"
-import { ConsoleName, GenreObject, PlatformObject, Product } from "../types";
+import { ConsoleName, GenreObject, PlatformObject, Product, Reviews } from "../types";
 import { useNavigate } from "react-router-dom";
 
 const DataProvider = (props: any) => {
@@ -164,8 +164,25 @@ const DataProvider = (props: any) => {
     function wait(ms: number) {
         return new Promise(resolve => setTimeout(resolve, ms))
     };
+    const isVowel = (char: string) => {
+        char = char.toLowerCase();
+        return char === "a" || char === "e" || char === "i" || char === "o" || char === "u";
+    };
+    const getDotColor = (opinion: string): string | null => {
+        if (opinion === "skip") {
+            return "gray";
+        } else if (opinion === "notBad") {
+            return "yellow";
+        } else if (opinion === "good") {
+            return "orange";
+        } else if (opinion === "exceptional") {
+            return "red";
+        };
+        return null;
+    };
 
     const createArrFromObjectKey = (arr: any[], key: string | string[]): any[] => {
+        // for when you have a list of objects and you want to get a list of a specific key
         let result = [];
         if (typeof key === "string") {
             for (let i = 0; i < arr.length; i++) {
@@ -184,26 +201,26 @@ const DataProvider = (props: any) => {
         };
         return result;
     };
+    const createReviewsArr = (reviews: any[]): Reviews => {
+        let result = {
+            skip: reviews[3].percent,
+            notBad: reviews[2].percent,
+            good: reviews[1].percent,
+            exceptional: reviews[0].percent,
+        };
+        return result;
+    };
     // get functions
-    const getGames = async (platforms: string[], page?: number) => {
+    const getGames = async (platforms: string[], pageNumber?: number) => {
         let platformIds = platformToPlatformId(platforms);
-        let url = `https://api.rawg.io/api/games?&platforms=${platformIds.join(",")}&page_size=12${page ? `&page=${page}` : ""}&key=${import.meta.env.VITE_APP_RAWG_API_KEY}`
+        let url = `https://api.rawg.io/api/games?&platforms=${platformIds.join(",")}&page_size=12${pageNumber ? `&page=${pageNumber}` : ""}&key=${import.meta.env.VITE_APP_RAWG_API_KEY}`
         const response = await axios.get(url)
         return handleGameData(response.data);
-        // .then((response) => {
-        //     console.log(resp);
-        //     console.log(response);
-
-        //     return data;
-        //     // return response.data;
-        // })
-        // .catch((error) => {
-        //     console.log(error);
-        //     return null;
-        // })
     };
     const handleGameData = async (data: any) => {
         let result: any = [];
+        const count = data.count;
+        const pages = Math.ceil(count / data.results.length);
         for (let game of data.results) {
             result.push({
                 // copy keys
@@ -213,7 +230,10 @@ const DataProvider = (props: any) => {
                 playtime: game.playtime,
                 rating: game.rating,
                 ratings_count: game.ratings_count,
+                metacritic: game.metacritic,
+                metacritic_url: game.metacritic_url,
                 // none-copy keys
+                reviews: createReviewsArr(game.ratings),
                 hot: game.added_by_status.owned >= 10000,
                 sale: parseInt(game.released.split("-")[0]) <= 2014,
                 price: "$69.99",
@@ -223,12 +243,29 @@ const DataProvider = (props: any) => {
                 gameId: game.id,
                 consoles: createArrFromObjectKey(game.platforms, ["platform", "name"]),
                 imgReel: createArrFromObjectKey(game.short_screenshots, "image"),
-                // onConsole
-                // favorite
             });
         };
         console.log("data: ", result);
-        return result;
+        return {
+            games: result,
+            count: count,
+            pages: pages
+        };
+    };
+    const getGameDetails = async (gameId: "TEST-GAME-ID" | string | number) => {
+        if (gameId === "TEST-GAME-ID") return;
+        const game_pk = gameId;
+        let url = `https://api.rawg.io/api/games/${game_pk}?key=${import.meta.env.VITE_APP_RAWG_API_KEY}`
+        const response = await axios.get(url)
+        return handleGameDetailsData(response.data);
+    };
+    const handleGameDetailsData = async (data: any) => {
+        const gameDeveloper: string = data.publishers[0].name;
+        const description: string = data.description_raw;
+        return {
+            gameDeveloper: gameDeveloper,
+            description: description,
+        };
     };
 
     // product functions
@@ -317,13 +354,13 @@ const DataProvider = (props: any) => {
         return 'member' in object;
     };
     const productPageFunctions = {
-        viewProduct: function (product: Product, consoleName?: ConsoleName) {
+        viewProduct: async function (product: Product, consoleName?: ConsoleName) {
             if (product.productType === "video-game") {
                 // for video-games console name is required
-                if (consoleName) {
-                    let productCopy = { ...product, onConsole: consoleName };
-                    product = productCopy;
-                };
+                if (!consoleName) return;
+                const gameDetailsData = await getGameDetails(product.gameId);
+                let productCopy = { ...product, onConsole: consoleName, ...gameDetailsData };
+                product = productCopy;
             };
             console.log(product);
             setProductControls({ ...productControls, selectedProduct: product, isNavigating: true });
@@ -350,7 +387,8 @@ const DataProvider = (props: any) => {
         gameDeveloper: "Rockstar Games",
         productType: "video-game",
         name: "Grand Theft Auto V",
-        background_image: "https://media.rawg.io/media/games/737/737ea5662211d2e0bbd6f5989189e4f1.jpg",
+        description: "Rockstar Games went bigger, since their previous installment of the series. You get the complicated and realistic world-building from Liberty City of GTA4 in the setting of lively and diverse Los Santos, from an old fan favorite GTA San Andreas. 561 different vehicles (including every transport you can operate) and the amount is rising with every update. Simultaneous storytelling from three unique perspectives:  Follow Michael, ex-criminal living his life of leisure away from the past, Franklin, a kid that seeks the better future, and Trevor, the exact past Michael is trying to run away from.  GTA Online will provide a lot of additional challenge even for the experienced players, coming fresh from the story mode. Now you will have other players around that can help you just as likely as ruin your mission. Every GTA mechanic up to date can be experienced by players through the unique customizable character, and community content paired with the leveling system tends to keep everyone busy and engaged. Español Rockstar Games se hizo más grande desde su entrega anterior de la serie. Obtienes la construcción del mundo complicada y realista de Liberty City de GTA4 en el escenario de Los Santos, un viejo favorito de los fans, GTA San Andreas. 561 vehículos diferentes (incluidos todos los transportes que puede operar) y la cantidad aumenta con cada actualización. Narración simultánea desde tres perspectivas únicas: Sigue a Michael, ex-criminal que vive su vida de ocio lejos del pasado, Franklin, un niño que busca un futuro mejor, y Trevor, el pasado exacto del que Michael está tratando de huir. GTA Online proporcionará muchos desafíos adicionales incluso para los jugadores experimentados, recién llegados del modo historia. Ahora tendrás otros jugadores cerca que pueden ayudarte con la misma probabilidad que arruinar tu misión. Los jugadores pueden experimentar todas las mecánicas de GTA actualizadas a través del personaje personalizable único, y el contenido de la comunidad combinado con el sistema de nivelación tiende a mantener a todos ocupados y comprometidos.",
+        background_image: "https://i.imgur.com/wvmVtjo.png",
         genres: [
             {
                 id: 4,
@@ -360,24 +398,34 @@ const DataProvider = (props: any) => {
         rating: 4.47,
         esrb_rating: "18+",
         ratings_count: 6860,
+        reviews: {
+            skip: 1.85,
+            notBad: 6.32,
+            good: 32.69,
+            exceptional: 59.14,
+        },
+        metacritic: 97,
+        metacritic_url: "https://www.metacritic.com/game/pc/grand-theft-auto-v",
         consoles: [
             'PC', 'PlayStation 5', 'PlayStation 4', 'Xbox One', 'Nintendo'
         ],
         price: "$69.99",
         playtime: 126,
         imgReel: [
-            'https://i.imgur.com/ZStckzM.jpg',
-            'https://i.imgur.com/yaoZCJi.png',
-            'https://i.imgur.com/MiC1pkn.png',
-            'https://i.imgur.com/YA9kNGf.jpg',
-            'https://i.imgur.com/YA9kNGf.jpg',
-            'https://i.imgur.com/YA9kNGf.jpg',
-            'https://i.imgur.com/YA9kNGf.jpg',
-            'https://i.imgur.com/YA9kNGf.jpg',
+            'https://i.imgur.com/mRYGveO.jpg',
+            'https://i.imgur.com/RxGgCQy.jpg',
+            'https://i.imgur.com/qCNTwgm.jpg',
+            'https://i.imgur.com/QwK4Wyh.jpg',
+            'https://i.imgur.com/XkDqW0A.jpg',
+            'https://i.imgur.com/xuN7QT5.jpg',
+            'https://i.imgur.com/eCNifWe.jpg',
+            'https://i.imgur.com/tOVMNae.jpg',
+            'https://i.imgur.com/MU5wsOF.jpg',
+            'https://i.imgur.com/xjWOQYu.jpg',
         ],
         favorite: false,
         onConsole: "PlayStation 4",
-        gameId: "GAME-ID-FROM-API",
+        gameId: "TEST-GAME-ID",
     };
     const testGameProduct2: Product = {
         name: "God of War: Ragnorak",
@@ -395,6 +443,8 @@ const DataProvider = (props: any) => {
         playtime: 70,
         productType: "video-game",
         gameDeveloper: "Santa Monica Studios",
+        metacritic: 94,
+        metacritic_url: "https://www.metacritic.com/game/pc/god-of-war-ragnorak",
         background_image: "https://i.imgur.com/ZStckzM.jpg",
         genres: [
             {
@@ -404,13 +454,19 @@ const DataProvider = (props: any) => {
         ],
         rating: 4.6,
         ratings_count: 91,
+        reviews: {
+            skip: 1.85,
+            notBad: 6.32,
+            good: 32.69,
+            exceptional: 59.14,
+        },
         esrb_rating: "18+",
         consoles: [
             'PC', 'PlayStation 5', 'PlayStation 4', 'Xbox One', 'Nintendo'
         ],
         favorite: false,
         onConsole: "PlayStation 5",
-        gameId: "GAME-ID-FROM-API",
+        gameId: "TEST-GAME-ID",
     };
 
     return (
@@ -418,7 +474,7 @@ const DataProvider = (props: any) => {
             textFunctions, timeFunctions, wait, gIcon, platformToPlatformId,
             starImgs, getGames, getGenre, convertPlatformsToString, numToRating,
             selectedProduct: productControls.selectedProduct, productPageFunctions,
-            testGameProduct, testGameProduct2
+            testGameProduct, testGameProduct2, isVowel, getDotColor
         }}>
             {props.children}
         </DataContext.Provider>

@@ -34,11 +34,13 @@ const Dropdown = ({ open, itemsList, pointerRef, pointerRefCurrent, fontSize, on
         window.addEventListener('click', hideOnClickOutside, true)
         return () => window.removeEventListener('click', hideOnClickOutside)
     }, []);
+    
 
     const handleClick = (index: number) => {
         const clickFunction = itemsList[index].clickFunction.function;
         const params = itemsList[index].clickFunction.params;
         clickFunction(...params);
+        onClose();
     };
     
     const convertItemName = (itemName: string) => {

@@ -12,14 +12,18 @@ const ProductCard = (props: ProductCardProps) => {
     const platformConsoleStrip: ObjectWithStringValues = {
         ps5: "https://i.imgur.com/AXD5Q3th.jpg",
         "PlayStation 5": "https://i.imgur.com/AXD5Q3th.jpg",
+        "PlayStation 4": "https://i.imgur.com/kJpLSp2.jpg",
+        "Xbox Series X": "https://i.imgur.com/hzydxqj.jpg",
+        "Xbox One": "https://i.imgur.com/Ytm0VIW.jpg",
+        "Nintendo Switch": "https://i.imgur.com/wEIvg7V.png",
     };
 
     return (
-        <div key={props.index} className="product-card-container">
+        <div key={props.index} className="product-card-container" style={{ height: props.productType === "console" ? "460px" : "492px"}}>
             {props.productType === "console" &&
                 <div className="product-card" data-cardversion="console">
                     <div className="imgDiv">
-                        <img src={props.console.imgUrl} alt="" className="img" />
+                        <img src={props.console.imgUrl} alt="" className="console-img" />
                     </div>
                     <div className="head">
                         <p className="sub-title">{props.console.productMake}</p>
@@ -37,7 +41,13 @@ const ProductCard = (props: ProductCardProps) => {
                         {props.consoleName &&
                             <img src={platformConsoleStrip[props.consoleName]} alt="" className="console-strip" />
                         }
-                        <img src={props.game.background_image} alt="" className="video-game-img" />
+                        <div className="video-game-img-container">
+                            <img
+                                src={props.game.background_image}
+                                alt=""
+                                className="video-game-img"
+                            />
+                        </div>
                     </div>
                     <div className="head">
                         <p className="sub-title">{typeof props.game.genres === "string" ? props.game.genres.split(":")[0] : props.game.genres[0].name}</p>

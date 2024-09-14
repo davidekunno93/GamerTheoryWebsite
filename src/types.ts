@@ -85,9 +85,14 @@ export type Product = {
     price: string
 } & (GameProduct | ConsoleProduct)
 
+export type Reviews = {
+    exceptional: number
+    good: number
+    notBad: number
+    skip: number
+}
 export type GameProduct = {
     productType: "video-game"
-    gameDeveloper: string
     background_image: string
     genres: GenreObject[]
     playtime: number
@@ -96,10 +101,15 @@ export type GameProduct = {
     esrb_rating: string
     consoles: string[]
     onConsole: ConsoleName
+    reviews: Reviews
+    metacritic: number
+    metacritic_url: string
+    description?: string
+    gameDeveloper?: string
     favorite?: boolean
     hot?: boolean
     sale?: boolean
-    gameId: string | number
+    gameId: "TEST-GAME-ID" | string | number
 };
 export type ConsoleName = "PlayStation 5" | "PlayStation 4" | "Xbox Series X" | "Xbox One" | "Nintendo" | "PC"
 export type ConsoleProduct = {
@@ -154,6 +164,7 @@ export type consoleObject = {
 // for api call
 export type GameDataOptions = {
     pageSize: number
+    esrbRating: string | null
     platforms: string[]
     genre: string | null
     minRating: number | null

@@ -4,10 +4,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    /* border: 1px solid salmon; */
+    /* border: 1px solid salmon; */ 
 }
 .product-card {
-    height: 448px;
+    /* height: 448px; */
+    height: 480px;
     width: 312px;
     padding: 24px;
     background-color: white;
@@ -36,6 +37,8 @@
 }
 .product-card .imgDiv {
     height: 60%;
+    /* height: 235px; */
+    /* border: 1px solid salmon; */
     /* width: 100%; */
     object-fit: contain;
     border-radius: 8px;
@@ -43,26 +46,45 @@
     flex-direction: column;
     overflow: hidden;
     cursor: pointer;
+    position: relative;
+
 }
-.product-card .imgDiv .console-strip {
-    width: 100%;
-    object-fit: contain;
-}
-.product-card .imgDiv .img {
+.product-card .imgDiv .console-img {
     width: 100%;
     height: 100%;
     /* background-color: whitesmoke; */
     object-fit: contain;
-    object-position: center;
+    object-position: center; 
     /* margin: auto; */
 }
-.product-card .imgDiv .video-game-img {
+.product-card .imgDiv .console-strip {
+    position: absolute;
+    top: 0;
     width: 100%;
+    /* height: 32px; */
+    object-fit: contain;
+    z-index: 1;
+}
+.product-card .imgDiv .video-game-img-container {
+    height: calc(100% - 24px); 
+    width: 500px;
+    position: absolute;
+    left: -134px; 
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    background-color: black;
+}
+.product-card .imgDiv .video-game-img {
+    /* width: 100%; */
     height: 100%;
     /* background-color: whitesmoke; */
     object-fit: cover;
+    object-fit: contain;
     object-position: center;
     /* margin: auto; */
+    /* position: absolute;
+    left: 100%; */
 }
 .product-card .sub-title {
     font-size: 12px;

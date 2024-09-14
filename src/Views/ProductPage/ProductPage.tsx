@@ -1,10 +1,11 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useLayoutEffect, useRef, useState } from 'react';
 import './productpage.scoped.css'
 import { DataContext } from '../../Context/DataProvider';
 import RatingOnly from '../../Components/RatingsDisplay/RatingOnly';
 import Dropdown from '../../Components/Dropdown/Dropdown';
 import ProductSlider from '../../Components/ProductSlider/ProductSlider';
 import { itemObject, ProductPageProps } from '../../types';
+import { Link } from 'react-router-dom';
 
 type ConsoleDropdown = {
     isOpen: boolean
@@ -13,7 +14,7 @@ type ConsoleDropdown = {
 };
 
 const ProductPage = ({ product }: ProductPageProps) => {
-    const { gIcon, testGameProduct2 } = useContext(DataContext);
+    const { gIcon, testGameProduct2, textFunctions, isVowel, getDotColor } = useContext(DataContext);
     if (!product) {
         product = testGameProduct2;
     };
@@ -71,7 +72,7 @@ const ProductPage = ({ product }: ProductPageProps) => {
             setImgSelected(imgUrl);
         },
     };
-    useEffect(() => {
+    useLayoutEffect(() => {
         imgReelFunctions.intitializeControls();
         window.scrollTo(0, 0);
         console.log(product);
@@ -356,7 +357,11 @@ const ProductPage = ({ product }: ProductPageProps) => {
                             <div ref={imgReelInnerRef} className="inner" style={{ transform: `translateY(-${imgReelControls.offset}px)` }}>
                                 {product.imgReel.map((imgUrl, index) => {
                                     return <div key={index} className="imgDiv">
-                                        <img onClick={() => imgReelFunctions.selectImg(imgUrl)} src={imgUrl} alt="" />
+                                        <img
+                                            onClick={() => imgReelFunctions.selectImg(imgUrl)}
+                                            src={imgUrl}
+                                            alt=""
+                                        />
                                     </div>
                                 })}
                             </div>
@@ -381,7 +386,14 @@ const ProductPage = ({ product }: ProductPageProps) => {
                             }
                             <div className="title">{product.name}</div>
                             {product.productType === "video-game" &&
-                                <div className="esrb-rating"><b>ESRB Rating:</b> {product.esrb_rating}</div>
+                                <>
+                                    <div className="esrb-rating"><b>ESRB Rating:</b> {product.esrb_rating}</div>
+                                    <div className="metacritic-rating">
+                                        <img src="https://i.imgur.com/zwmEhq8.png" alt="" />
+                                        <Link to={product.metacritic_url} target="_blank" className="metacritic-link"><p>Metacritic score:</p></Link>
+                                        <span className='purple-text'>94</span>
+                                    </div>
+                                </>
                             }
                         </div>
                         <div className="price">{product.price}</div>
@@ -412,17 +424,45 @@ const ProductPage = ({ product }: ProductPageProps) => {
                         <div className="condition-info">
                             <p>Condition: <strong>New</strong></p>
                         </div>
-                        <div className="description">
-                            <h3 className='m-0'>Description</h3>
-                            <p>This is a short description to explain the contents of the game, what other users
-                                have been saying about it, the story, how many hours of playtime
-                                can be expected and more.
-                            </p>
-                        </div>
+                        {product.productType === "video-game" &&
+                            <div className="description">
+                                <h3 className='m-0'>Summary</h3>
+                                <p>
+                                    {product.name} is {isVowel(product.genres[0].name.charAt(0)) ? "an" : "a" } {product.genres[0].name.toLowerCase()} game on the {product.onConsole} created by {product.gameDeveloper}. It's playtime is approximately {product.playtime} hours according to users who have completed it.
+                                </p>
+                            </div>
+                        }
                     </div>
                 </div>
+                {product.productType === "video-game" &&
+                    <div className="description-and-reviews">
+                        <div className="reviews">
+                            <div className="legend">
+                                {Object.entries(product.reviews).map(([opinion, percent], index) => { 
+                                    return <div key={index} className="legend-item">
+                                        <div className="legend-dot" style={{ backgroundColor: getDotColor(opinion) }}></div>
+                                        <p>{opinion === "notBad" ? "Not bad" : textFunctions.capitalize(opinion)} <span className="gray-text small">({Math.round(percent)}%)</span></p>
+                                        </div> 
+                                    })}
+                            </div>
+                            <div className="review-bar">
+                                {Object.entries(product.reviews).map(([opinion, percent], index) => {
+                                    return <div key={index} className="portion" data-opinion={opinion} style={{ width: `${percent}%` }}></div>
+                                })}
+                                <div className="portion skip"></div>
+                                <div className="portion not-bad"></div>
+                                <div className="portion good"></div>
+                                <div className="portion exceptional"></div>
+                            </div>
+                        </div>
+                        <div className="description">
+                            <h3 className='m-0'>Description</h3>
+                            <p>{product.description}</p>
+                        </div>
+                    </div>
+                }
                 <div className="similar-products-container">
-                    <h2 className='more-like-this'>Browse similar products...</h2>
+                    <h2 className='more-like-this'>Shop similar products...</h2>
                     <ProductSlider
                         products={suggestedProducts}
                         productType='video-game'

@@ -8,9 +8,10 @@ import RatingOnly from "../../Components/RatingsDisplay/RatingOnly";
 import { GameDataOptions, PaginationControlObject } from "../../types";
 import ProductSlider from "../../Components/ProductSlider/ProductSlider";
 import { useParams } from "react-router-dom";
+import Loading from "../../Components/Loader/Loading";
 
 const ConsolePage = () => {
-    const { gIcon, textFunctions, testGameProduct} = useContext(DataContext);
+    const { gIcon, textFunctions, testGameProduct, getGames } = useContext(DataContext);
 
     const { platform } = useParams<any>();
     const consolePageLibrary: any = {
@@ -211,32 +212,59 @@ const ConsolePage = () => {
 
 
 
-    // test data
-    const videoGames = [testGameProduct];
-    // const [videoGames, setVideoGames] = useState<any>([
-    //     testGameObject
-    // ]);
-
-    // const loadData = async () => {
-    //     const gameData = await getGames(['PS5']);
-    //     setVideoGames(gameData);
-    // };
     // get video game data
+    const [videoGames, setVideoGames] = useState({
+        scrollToProducts: false, // set to true when load should scroll to products
+        isLoaded: true, // set to true when data is loaded
+        isLoadedWithDelay: true,
+        games: [testGameProduct],
+        count: 1,
+        pages: 1
+    });
+    const productsSectionRef = useRef<HTMLDivElement>(null);
+    const scrollToProductsSection = () => {
+        console.log("scrolling");
+        if (!productsSectionRef.current) return;
+        window.scrollTo({
+            top: productsSectionRef.current.offsetTop - 48,
+            behavior: "smooth"
+        });
+    };
     useEffect(() => {
-        // setVideoGames(getGames(["ps5"]));
+        setVideoGames({ ...videoGames, scrollToProducts: true });
+    }, []);
+    useEffect(() => {
+        if (videoGames.scrollToProducts && videoGames.isLoaded) {
+            scrollToProductsSection();
+        };
+    }, [videoGames.isLoaded]);
+
+
+
+    const loadData = async (pageNumber?: number, scrollToProducts?: boolean) => {
+        setVideoGames({ ...videoGames, isLoaded: false });
+        const gameData = await getGames(['PS5'], pageNumber);
+        if (pageNumber || scrollToProducts) {
+            setVideoGames({ ...gameData, scrollToProducts: true, isLoaded: true });
+        } else {
+            setVideoGames({ ...gameData, scrollToProducts: false, isLoaded: true });
+        };
+    };
+    useEffect(() => {
         // loadData();
-        paginationFunctions.initiatePaginationControl(7132);
+        paginationFunctions.initializePaginationControl(7132);
         // console.log(platformToPlatformId(["playstation4", "ps5", "xboxone", "xboxseriesx", "nintendo", "pc"]));
     }, []);
     const [gameDataOptions, setGameDataOptions] = useState<GameDataOptions>({
         pageSize: 12,
+        esrbRating: null,
         platforms: ["PS5"],
         genre: null,
         minRating: null,
     });
-    useEffect(() => {
-        console.log(gameDataOptions);
-    }, [gameDataOptions.platforms, gameDataOptions.genre, gameDataOptions.minRating]);
+    // useEffect(() => {
+    //     console.log(gameDataOptions);
+    // }, [gameDataOptions.platforms, gameDataOptions.genre, gameDataOptions.minRating]);
 
 
     // filter options code
@@ -458,56 +486,61 @@ const ConsolePage = () => {
 
 
     // video games pagination code
-    const [paginationControl, setPaginationControl] = useState<PaginationControlObject>({
+    const [paginationControls, setPaginationControls] = useState<PaginationControlObject>({
         ready: false,
-        isLoaded: false,
+        isLoaded: false, // isLoaded awaits displayedPages to be set before becoming true
         resultsCount: 0,
         firstPage: 1,
         lastPage: 0,
-        currentPage: 0,
+        currentPage: 1,
         displayedPages: [],
     });
     const paginationFunctions = {
         goToPreviousPage: function () {
-            let paginationControlCopy = { ...paginationControl };
+            let paginationControlCopy = { ...paginationControls };
             if (paginationControlCopy.currentPage > 1) {
                 paginationControlCopy.currentPage = paginationControlCopy.currentPage - 1;
                 paginationControlCopy.isLoaded = false;
-                setPaginationControl(paginationControlCopy);
+                setPaginationControls(paginationControlCopy);
+                loadData(paginationControlCopy.currentPage - 1);
             };
         },
         goToNextPage: function () {
-            let paginationControlCopy = { ...paginationControl };
+            let paginationControlCopy = { ...paginationControls };
             if (paginationControlCopy.currentPage < paginationControlCopy.lastPage) {
                 paginationControlCopy.currentPage = paginationControlCopy.currentPage + 1;
                 paginationControlCopy.isLoaded = false;
-                setPaginationControl(paginationControlCopy);
+                setPaginationControls(paginationControlCopy);
+                loadData(paginationControlCopy.currentPage + 1);
             };
         },
         goToFirstPage: function () {
-            let paginationControlCopy = { ...paginationControl };
+            let paginationControlCopy = { ...paginationControls };
             if (paginationControlCopy.currentPage !== paginationControlCopy.firstPage) {
                 paginationControlCopy.currentPage = paginationControlCopy.firstPage;
                 paginationControlCopy.isLoaded = false;
-                setPaginationControl(paginationControlCopy);
+                setPaginationControls(paginationControlCopy);
+                loadData(paginationControlCopy.firstPage);
             };
         },
         goToLastPage: function () {
-            let paginationControlCopy = { ...paginationControl };
+            let paginationControlCopy = { ...paginationControls };
             if (paginationControlCopy.currentPage !== paginationControlCopy.lastPage) {
                 paginationControlCopy.currentPage = paginationControlCopy.lastPage;
                 paginationControlCopy.isLoaded = false;
-                setPaginationControl(paginationControlCopy);
+                setPaginationControls(paginationControlCopy);
+                loadData(paginationControlCopy.lastPage);
             };
         },
-        updateCurrentPage: function (newPage: number) {
-            let paginationControlCopy = { ...paginationControl };
-            paginationControlCopy.currentPage = newPage;
+        goToPage: function (pageNumber: number) {
+            let paginationControlCopy = { ...paginationControls };
+            paginationControlCopy.currentPage = pageNumber;
             paginationControlCopy.isLoaded = false;
-            setPaginationControl(paginationControlCopy);
+            setPaginationControls(paginationControlCopy);
+            loadData(pageNumber);
         },
         updateDisplayedPages: function () {
-            let paginationControlCopy = { ...paginationControl };
+            let paginationControlCopy = { ...paginationControls };
             // show 9 pages (1 - 9)
             const currentPage = paginationControlCopy.currentPage;
             const firstPage = paginationControlCopy.firstPage;
@@ -539,30 +572,36 @@ const ConsolePage = () => {
 
             paginationControlCopy.displayedPages = displayedPages;
             paginationControlCopy.isLoaded = true;
-            setPaginationControl(paginationControlCopy);
+            setPaginationControls(paginationControlCopy);
             // console.log(paginationControlCopy);
         },
-        initiatePaginationControl: function (resultsCount: number) {
-            let paginationControlCopy = { ...paginationControl };
+        initializePaginationControl: function (resultsCount: number, goToFirstPage?: boolean) {
+            let paginationControlCopy = { ...paginationControls };
             // first page = 1 by default
             // resultsCount is count
             paginationControlCopy.resultsCount = resultsCount;
-            // current page is 1
-            paginationControlCopy.currentPage = 1;
+            if (goToFirstPage) {
+                // current page is 1
+                paginationControlCopy.currentPage = 1;
+            };
             // divide count by num results per page and round UP = num of pages/last page
             let numberOfPages = Math.ceil(resultsCount / 12);
             paginationControlCopy.lastPage = numberOfPages;
             paginationControlCopy.isLoaded = false;
             paginationControlCopy.ready = true;
-            setPaginationControl(paginationControlCopy);
+            setPaginationControls(paginationControlCopy);
             // displayed pages updates via useEffect
         },
-    }
+    };
     useEffect(() => {
-        if (paginationControl.ready && !paginationControl.isLoaded) {
+        if (paginationControls.ready && !paginationControls.isLoaded) {
             paginationFunctions.updateDisplayedPages();
         };
-    }, [paginationControl, paginationControl.currentPage]);
+    }, [paginationControls, paginationControls.currentPage]);
+    useEffect(() => {
+        paginationFunctions.initializePaginationControl(videoGames.count);
+    }, [videoGames]);
+
 
 
     return (
@@ -600,12 +639,14 @@ const ConsolePage = () => {
                                     }
                                 </div>
                                 <span className={gIcon + " arrow"}>keyboard_arrow_down</span>
-                                <Dropdown
-                                    open={option.dropdown.open}
-                                    itemsList={option.dropdown.itemsList}
-                                    pointerRefCurrent={filterOptionsPointerRefs.current[index]}
-                                    onClose={() => filterOptionsDropdownFunctions.close(index)}
-                                />
+                                {filterOptionsPointerRefs.current[index] &&
+                                    <Dropdown
+                                        open={option.dropdown.open}
+                                        itemsList={option.dropdown.itemsList}
+                                        pointerRefCurrent={filterOptionsPointerRefs.current[index]}
+                                        onClose={() => filterOptionsDropdownFunctions.close(index)}
+                                    />
+                                }
                             </div>
                         </div>
                     })}
@@ -624,10 +665,17 @@ const ConsolePage = () => {
                         </div>
                     </div> */}
                 </div>
-                <p className="gray-text">{paginationControl.resultsCount ?? "896"} results</p>
-                <div className="products-section">
-                    <div className="products-container">
-                        {videoGames.map((game: any, index: number) => {
+                <p className="gray-text">{paginationControls.resultsCount ?? "896"} {paginationControls.resultsCount === 1 ? "result" : "results"}</p>
+                <div ref={productsSectionRef} className="products-section">
+                    <div className="products-container position-relative">
+
+                        <Loading
+                            open={!videoGames.isLoaded}
+                            closureDelay={1500}
+                            overlayFillType="fillElement"
+                        />
+
+                        {videoGames.games.map((game: any, index: number) => {
                             return platform && <ProductCard
                                 key={index}
                                 index={index}
@@ -638,30 +686,30 @@ const ConsolePage = () => {
                         })}
                     </div>
                     <div className="pagination">
-                        <button onClick={() => paginationFunctions.goToFirstPage()} className="firstBtn">
+                        <button onClick={() => paginationFunctions.goToFirstPage()} className="firstBtn" data-disabled={paginationControls.currentPage === 1}>
                             <span className={gIcon}>keyboard_double_arrow_left</span>
                         </button>
-                        <button onClick={() => paginationFunctions.goToPreviousPage()} className="previousBtn">
+                        <button onClick={() => paginationFunctions.goToPreviousPage()} className="previousBtn" data-disabled={paginationControls.currentPage === 1}>
                             <span className={gIcon}>keyboard_arrow_left</span>
                         </button>
 
-                        {paginationControl.displayedPages.map((num, index) => {
-                            let offset = paginationControl.displayedPages[0] - 1;
+                        {paginationControls.displayedPages.map((num, index) => {
+                            let offset = paginationControls.displayedPages[0] - 1;
                             let pageNumber = index + 1 + offset;
                             return <button
                                 key={index}
-                                onClick={() => paginationFunctions.updateCurrentPage(pageNumber)}
+                                onClick={() => paginationFunctions.goToPage(pageNumber)}
                                 className="pageBtn"
-                                data-selected={paginationControl.currentPage === pageNumber}
+                                data-selected={paginationControls.currentPage === pageNumber}
                             >
                                 {num}
                             </button>
                         })}
 
-                        <button onClick={() => paginationFunctions.goToNextPage()} className="nextBtn">
+                        <button onClick={() => paginationFunctions.goToNextPage()} className="nextBtn" data-disabled={paginationControls.currentPage === paginationControls.lastPage}>
                             <span className={gIcon}>keyboard_arrow_right</span>
                         </button>
-                        <button onClick={() => paginationFunctions.goToLastPage()} className="lastBtn">
+                        <button onClick={() => paginationFunctions.goToLastPage()} className="lastBtn" data-disabled={paginationControls.currentPage === paginationControls.lastPage}>
                             <span className={gIcon}>keyboard_double_arrow_right</span>
                         </button>
                     </div>
