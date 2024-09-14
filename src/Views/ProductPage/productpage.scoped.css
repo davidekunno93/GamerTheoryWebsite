@@ -174,7 +174,7 @@ button.push-down {
     color: black;
 }
 
-.reviews {
+/* .reviews {
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -226,7 +226,7 @@ button.push-down {
 }   
 .review-bar .portion[data-opinion="exceptional"] { 
     background-color: red;
-}
+} */
 
 .similar-products-container {
     text-align: left;

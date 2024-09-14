@@ -6,6 +6,7 @@ import Dropdown from '../../Components/Dropdown/Dropdown';
 import ProductSlider from '../../Components/ProductSlider/ProductSlider';
 import { itemObject, ProductPageProps } from '../../types';
 import { Link } from 'react-router-dom';
+import ReviewsBreakdown from '../../Components/ReviewsBreakdown/ReviewsBreakdown';
 
 type ConsoleDropdown = {
     isOpen: boolean
@@ -14,7 +15,7 @@ type ConsoleDropdown = {
 };
 
 const ProductPage = ({ product }: ProductPageProps) => {
-    const { gIcon, testGameProduct2, textFunctions, isVowel, getDotColor } = useContext(DataContext);
+    const { gIcon, testGameProduct2, isVowel } = useContext(DataContext);
     if (!product) {
         product = testGameProduct2;
     };
@@ -436,25 +437,7 @@ const ProductPage = ({ product }: ProductPageProps) => {
                 </div>
                 {product.productType === "video-game" &&
                     <div className="description-and-reviews">
-                        <div className="reviews">
-                            <div className="legend">
-                                {Object.entries(product.reviews).map(([opinion, percent], index) => { 
-                                    return <div key={index} className="legend-item">
-                                        <div className="legend-dot" style={{ backgroundColor: getDotColor(opinion) }}></div>
-                                        <p>{opinion === "notBad" ? "Not bad" : textFunctions.capitalize(opinion)} <span className="gray-text small">({Math.round(percent)}%)</span></p>
-                                        </div> 
-                                    })}
-                            </div>
-                            <div className="review-bar">
-                                {Object.entries(product.reviews).map(([opinion, percent], index) => {
-                                    return <div key={index} className="portion" data-opinion={opinion} style={{ width: `${percent}%` }}></div>
-                                })}
-                                <div className="portion skip"></div>
-                                <div className="portion not-bad"></div>
-                                <div className="portion good"></div>
-                                <div className="portion exceptional"></div>
-                            </div>
-                        </div>
+                        <ReviewsBreakdown product={product} />
                         <div className="description">
                             <h3 className='m-0'>Description</h3>
                             <p>{product.description}</p>

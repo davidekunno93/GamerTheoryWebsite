@@ -1,0 +1,54 @@
+
+.reviews {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 512px;
+    margin-bottom: 24px;
+}
+.reviews .legend {
+    display: flex;
+    flex-direction: row;
+    gap: 18px;
+    align-items: center;
+}
+.legend .legend-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+}
+.legend-item .legend-dot {
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+}
+.legend-item p {
+    font-weight: 600;
+    white-space: nowrap;
+}
+.review-bar {
+    display: flex;
+    flex-direction: row; 
+    align-items: center;
+    height: 8px;
+    border-radius: 4px;
+    width: 100%; 
+    background-color: gray;
+    overflow: hidden;
+}
+.review-bar .portion {
+    height: 100%;
+}
+.review-bar .portion[data-opinion="skip"] {
+    background-color: gray;
+}
+.review-bar .portion[data-opinion="notBad"] {
+    background-color: yellow;
+}
+.review-bar .portion[data-opinion="good"] { 
+    background-color: orange;
+}   
+.review-bar .portion[data-opinion="exceptional"] { 
+    background-color: red;
+}
