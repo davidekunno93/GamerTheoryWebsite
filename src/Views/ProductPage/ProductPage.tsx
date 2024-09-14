@@ -7,6 +7,7 @@ import ProductSlider from '../../Components/ProductSlider/ProductSlider';
 import { itemObject, ProductPageProps } from '../../types';
 import { Link } from 'react-router-dom';
 import ReviewsBreakdown from '../../Components/ReviewsBreakdown/ReviewsBreakdown';
+import dompurify from 'dompurify';
 
 type ConsoleDropdown = {
     isOpen: boolean
@@ -16,6 +17,7 @@ type ConsoleDropdown = {
 
 const ProductPage = ({ product }: ProductPageProps) => {
     const { gIcon, testGameProduct2, isVowel } = useContext(DataContext);
+    const sanitizer = dompurify.sanitize;
     if (!product) {
         product = testGameProduct2;
     };
@@ -339,6 +341,19 @@ const ProductPage = ({ product }: ProductPageProps) => {
         },
     ];
 
+
+    const prettifyDescription = (description: string): string => {
+        if (description.includes("Español")) {
+            let englishDescription = description.split("Español")[0];
+            let spanishDescription = description.split("Español")[1];
+            return "<p>" + englishDescription + "</p><p>" + "<br /><b>Español</b><br />" + spanishDescription + "</p>";
+        } else {
+            return "<p>" + description + "</p>";
+        };
+    };
+
+    
+
     return (
         <>
             <div className="product-page">
@@ -429,7 +444,7 @@ const ProductPage = ({ product }: ProductPageProps) => {
                             <div className="description">
                                 <h3 className='m-0'>Summary</h3>
                                 <p>
-                                    {product.name} is {isVowel(product.genres[0].name.charAt(0)) ? "an" : "a" } {product.genres[0].name.toLowerCase()} game on the {product.onConsole} created by {product.gameDeveloper}. It's playtime is approximately {product.playtime} hours according to users who have completed it.
+                                    {product.name} is {isVowel(product.genres[0].name.charAt(0)) ? "an" : "a"} {product.genres[0].name.toLowerCase()} game on the {product.onConsole} created by {product.gameDeveloper}. It's playtime is approximately {product.playtime} hours according to users who have completed it.
                                 </p>
                             </div>
                         }
@@ -438,10 +453,13 @@ const ProductPage = ({ product }: ProductPageProps) => {
                 {product.productType === "video-game" &&
                     <div className="description-and-reviews">
                         <ReviewsBreakdown product={product} />
-                        <div className="description">
-                            <h3 className='m-0'>Description</h3>
-                            <p>{product.description}</p>
-                        </div>
+                        {product.description &&
+                            <div className="description">
+                                <h3 className='m-0'>Description</h3>
+                                {/* <p>{product.description}</p> */}
+                                <div dangerouslySetInnerHTML={{ __html: sanitizer(prettifyDescription(product.description)) }} />
+                            </div>
+                        }
                     </div>
                 }
                 <div className="similar-products-container">
