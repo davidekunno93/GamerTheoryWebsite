@@ -12,11 +12,12 @@ import Loading from "../../Components/Loader/Loading";
 
 const ConsolePage = () => {
     const { gIcon, textFunctions, testGameProduct, getGames, wait, consolesLibrary } = useContext(DataContext);
+    const { platform } = useParams<any>();
 
     // page load
     const { state } = useLocation();
     useLayoutEffect(() => {
-      window.scrollTo(0, 0);
+        window.scrollTo(0, 0);
     }, []);
     useEffect(() => {
         if (!state) return;
@@ -30,8 +31,7 @@ const ConsolePage = () => {
     }, []);
 
 
-    const { platform } = useParams<any>();
- 
+
 
     // page setting variables
     const bannerObjects = platform ? consolesLibrary[platform].bannerObjects : null;
@@ -104,8 +104,8 @@ const ConsolePage = () => {
         if (!minRating) return null;
         return parseInt((minRating / 5 * 100).toFixed(0));
     };
-    
-    const loadData = async (pageNumber?: number | null, scrollToProducts?: boolean | null, platforms?: string[] | null)  => {
+
+    const loadData = async (pageNumber?: number | null, scrollToProducts?: boolean | null, platforms?: string[] | null) => {
         setVideoGames({ ...videoGames, isLoaded: false });
         const gameData = await getGames(platforms ?? gameDataOptions.platforms, pageNumber, gameDataOptions.genre, convertMinRatingToPercent(gameDataOptions.minRating));
         if (pageNumber || scrollToProducts) {
@@ -115,9 +115,9 @@ const ConsolePage = () => {
         };
     };
     useEffect(() => {
-        if (platform) {
-            setGameDataOptions({ ...gameDataOptions, platforms: [consolesLibrary[platform].consoles[0]]});
-        };
+        if (!platform) return;
+        loadData(null, null, [consolesLibrary[platform].consoles[0]]);
+        setGameDataOptions({ ...gameDataOptions, platforms: [consolesLibrary[platform].consoles[0]] });
     }, [platform]);
     const [gameDataOptions, setGameDataOptions] = useState<GameDataOptions>({
         pageSize: 12,
@@ -349,10 +349,10 @@ const ConsolePage = () => {
         },
     };
     // useEffect(() => {
-        
+
     // }, [platform]);    
-    
-  
+
+
 
 
     // video games pagination code

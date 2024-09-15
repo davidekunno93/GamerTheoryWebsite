@@ -200,7 +200,8 @@ const DataProvider = (props: any) => {
         };
         return result;
     };
-    const createReviewsArr = (reviews: any[]): Reviews => {
+    const createReviewsArr = (reviews: any[]): Reviews | null => {
+        if (!reviews) return null;
         let result = {
             skip: reviews[3].percent,
             notBad: reviews[2].percent,

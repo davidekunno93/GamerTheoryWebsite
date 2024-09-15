@@ -39,5 +39,8 @@ export default {
 
 
 
-## Up next:
+## API documentation
+
+# RAWG Video Gamse Database API
+- Free tier provides 20,000 requests per month
 

@@ -118,7 +118,7 @@ export type GameProduct = {
     esrb_rating: string
     consoles: string[]
     onConsole: ConsoleName
-    reviews: Reviews
+    reviews: Reviews | null
     metacritic: number
     metacritic_url: string | null
     description?: string
