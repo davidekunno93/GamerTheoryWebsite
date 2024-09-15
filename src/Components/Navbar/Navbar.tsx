@@ -106,6 +106,7 @@ const Navbar = ({ setSidePanelOpen }: NavbarProps) => {
             return <Link
               key={index}
               to={option.link}
+              state={{ disposition: "console"}}
               className={option.redOption ? "option-red" : "option"}
             >
               <div>

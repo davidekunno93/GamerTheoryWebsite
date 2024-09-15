@@ -8,8 +8,10 @@ type ProductSliderProps = {
     productType: "console" | "video-game"
     consoleName?: string
     darkCard?: boolean
+    gap?: number
+    excludedProducts?: string[]
 }
-const ProductSlider = ({ products, productType, consoleName, darkCard }: ProductSliderProps) => {
+const ProductSlider = ({ products, productType, consoleName, darkCard, gap, excludedProducts }: ProductSliderProps) => {
     const { gIcon } = useContext(DataContext);
     const productSliderWindowRef = useRef(null);
     const productSliderInnerRef = useRef(null);
@@ -84,8 +86,10 @@ const ProductSlider = ({ products, productType, consoleName, darkCard }: Product
 
                 <div ref={productSliderInnerRef} className="ps-inner" style={{ transform: `translateX(-${productSliderControls.offset}px)` }}>
 
-                    <div className="product-slider">
+                    <div className="product-slider" style={{ gap: gap ? `${gap}px` : "48px" }}>
                         {products.map((product: any, index: number) => {
+                            const excluded = excludedProducts?.includes(product.name);
+                            if (excluded) return null;
                             if (productType === "console") {
                                 return <ProductCard
                                 key={index}

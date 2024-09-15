@@ -3,6 +3,7 @@ import './sidepanel.scoped.css'
 import { useContext, useEffect, useState } from 'react';
 import { DataContext } from '../../Context/DataProvider';
 import { OptionObject, SidePanelProps } from '../../types';
+import { Link } from 'react-router-dom';
 
 
 const SidePanel = ({ open, onClose }: SidePanelProps) => {
@@ -45,17 +46,20 @@ const SidePanel = ({ open, onClose }: SidePanelProps) => {
                         {
                             title: "Playstation",
                             subTwoOptions: [],
-                            link: "",
+                            link: "/console/playstation",
+                            disposition: "console",
                         },
                         {
                             title: "Xbox",
                             subTwoOptions: [],
-                            link: "",
+                            link: "/console/xbox",
+                            disposition: "console",
                         },
                         {
                             title: "Nintendo",
                             subTwoOptions: [],
-                            link: "",
+                            link: "/console/nintendo",
+                            disposition: "console",
                         },
                         {
                             title: "PC",
@@ -73,35 +77,44 @@ const SidePanel = ({ open, onClose }: SidePanelProps) => {
                     subOptions: [
                         {
                             title: "Playstation",
+                            link: "/console/playstation",
+                            disposition: "video-games",
+                            // not using subtwooptions
                             subTwoOptions: [
                                 {
                                     title: "Playstation 5",
-                                    link: ""
+                                    link: "/console/playstation",
+                                    disposition: "video-games",
                                 },
                                 {
                                     title: "Playstation 4",
-                                    link: ""
+                                    link: "/console/playstation",
+                                    disposition: "video-games",
                                 },
                             ],
-                            link: "",
                         },
                         {
                             title: "Xbox",
+                            link: "/console/xbox",
+                            disposition: "video-games",
+                            // not using subtwooptions
                             subTwoOptions: [
                                 {
                                     title: "Xbox Series X",
-                                    link: ""
+                                    link: "/console/xbox",
+                                    disposition: "video-games",
                                 },
                                 {
                                     title: "Xbox One",
-                                    link: ""
+                                    link: "/console/xbox",
+                                    disposition: "video-games",
                                 },
                             ],
-                            link: "",
                         },
                         {
                             title: "Nintendo",
-                            link: "",
+                            link: "/console/nintendo",
+                            disposition: "video-games",
                         },
                         {
                             title: "PC",
@@ -159,21 +172,21 @@ const SidePanel = ({ open, onClose }: SidePanelProps) => {
             if (subOptions) {
                 expandedHeight = subOptions?.clientHeight + 56;
                 subOptions.classList.replace('hide', 'show');
-            }
+            };
             if (container) {
                 container.style.height = expandedHeight.toString() + "px";
-            }
+            };
             console.log(id)
             setSelectedSubOption(id);
-            for (let i=0; i<panelOptions.length; i++) {
-                for (let j=0; j<panelOptions[i].options.length; j++) {
-                    let subOption_id = i.toString()+j.toString();
+            for (let i = 0; i < panelOptions.length; i++) {
+                for (let j = 0; j < panelOptions[i].options.length; j++) {
+                    let subOption_id = i.toString() + j.toString();
                     if (id !== subOption_id) {
                         console.log(subOption_id)
                         optionContainerFunctions.collapse(subOption_id);
                     };
-                }
-            }
+                };
+            };
         },
         collapse: function (id: string) {
             const container: HTMLElement | null = document.getElementById(`optionContainer-${id}`);
@@ -184,7 +197,7 @@ const SidePanel = ({ open, onClose }: SidePanelProps) => {
             if (container) {
                 container.style.height = "56px";
             }
-            
+
         },
         toggle: function (id: string) {
             const subOptions: HTMLElement | null = document.getElementById(`subOptions-${id}`);
@@ -193,9 +206,9 @@ const SidePanel = ({ open, onClose }: SidePanelProps) => {
                 setSelectedSubOption(null);
             } else {
                 optionContainerFunctions.expand(id);
-            }
-        }
-    }
+            };
+        },
+    };
 
     return (
         <div className="overlay-placeholder">
@@ -223,7 +236,7 @@ const SidePanel = ({ open, onClose }: SidePanelProps) => {
                                     return <>
                                         <p key={i} className="heading">{optionObject.heading}</p>
                                         {optionObject.options.map((option, j) => {
-                                            let id: string = i.toString()+j.toString();
+                                            let id: string = i.toString() + j.toString();
                                             let isSelected = selectedSubOption === id;
                                             return <div
                                                 key={id}
@@ -244,9 +257,15 @@ const SidePanel = ({ open, onClose }: SidePanelProps) => {
                                                 </div>
                                                 <div id={`subOptions-${id}`} className="sub-options hide">
                                                     {option.subOptions?.map((subOption, k) => {
-                                                        return <div key={k} className="sub-option">
+                                                        return <Link
+                                                            key={k}
+                                                            to={subOption.link}
+                                                            state={{ disposition: subOption.disposition }}
+                                                            className='sub-option'
+                                                            onClick={() => closePanel()}
+                                                        >
                                                             <p>{subOption.title}</p>
-                                                        </div>
+                                                        </Link>
                                                     })}
 
                                                 </div>

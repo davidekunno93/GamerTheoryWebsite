@@ -17,7 +17,7 @@ function App() {
         <SidePanel open={sidePanelOpen} onClose={() => setSidePanelOpen(false)} />
         <Routes>
           <Route children path='/' element={<Dashboard />} />
-          <Route children path='/product' element={selectedProduct ? <ProductPage product={selectedProduct} /> : <Dashboard />} />
+          <Route children path='/product/:productName' element={selectedProduct ? <ProductPage product={selectedProduct} /> : <Dashboard />} />
           <Route children path='/console/:platform' element={<ConsolePage />} />
         </Routes>
     </>

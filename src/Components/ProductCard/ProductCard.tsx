@@ -19,10 +19,10 @@ const ProductCard = (props: ProductCardProps) => {
     };
 
     return (
-        <div key={props.index} className="product-card-container" style={{ height: props.productType === "console" ? "460px" : "492px"}}>
+        <div key={props.index} className="product-card-container">
             {props.productType === "console" &&
-                <div className="product-card" data-cardversion="console">
-                    <div className="imgDiv">
+                <div className="product-card" data-cardversion="console" data-darkcard={props.darkCard ?? false}>
+                    <div onClick={() => productPageFunctions.viewProduct(props.console)} className="imgDiv">
                         <img src={props.console.imgUrl} alt="" className="console-img" />
                     </div>
                     <div className="head">
@@ -30,7 +30,7 @@ const ProductCard = (props: ProductCardProps) => {
                         <p className="title">{props.console.name}</p>
                     </div>
                     <div className="footer">
-                        <p className="price">{props.console.price}</p>
+                        <div className="price">{props.console.price}</div>
                         <button className="addBtn">Add to cart</button>
                     </div>
                 </div>
@@ -50,7 +50,7 @@ const ProductCard = (props: ProductCardProps) => {
                         </div>
                     </div>
                     <div className="head">
-                        <p className="sub-title">{typeof props.game.genres === "string" ? props.game.genres.split(":")[0] : props.game.genres[0].name}</p>
+                        <p className="sub-title">{props.game.genre}</p>
                         <p className="title truncated">{props.game.name}</p>
                         <RatingsDisplay
                             game={props.game}
@@ -58,7 +58,14 @@ const ProductCard = (props: ProductCardProps) => {
                     </div>
                     <div className="footer">
                         <div className="price-and-favorite">
-                            <p className="price">$69.99</p>
+                            {props.game.sale ?
+                                <div className="price">
+                                    <p className="before">{props.game.price}</p>
+                                    <p className="after">$44.99</p>
+                                </div>
+                                :
+                                <div className="price">$69.99</div>
+                            }
                             <div className="favorite-container">
                                 {props.game.favorite ?
                                     <img src="https://i.imgur.com/8CwUhbi.png" alt="" className="favorite-img" />

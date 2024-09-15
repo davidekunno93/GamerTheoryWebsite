@@ -1,3 +1,4 @@
+
 // Hero Section
 export type HeroSectionProps = {
     bannerObjects: BannerObject[]
@@ -15,6 +16,8 @@ type BannerObject = {
 
 
 // Dashboard
+
+// Side Panel
 export type SidePanelProps = {
     open: boolean
     onClose: () => void
@@ -34,9 +37,15 @@ type Option = {
 };
 type SubOption = {
     title: string
-    subTwoOptions?: Object[]
+    subTwoOptions?: SubTwoOptions[]
     link: string
+    disposition?: string
 };
+type SubTwoOptions = {
+    title: string
+    link: string
+    disposition?: string
+}
 
 // Search Bar
 export type SearchBarProps = {
@@ -75,6 +84,13 @@ export type PaginationControlObject = {
     displayedPages: number[]
 };
 
+// using gameDataOptions instead
+// export type FilterParams = {
+//     platforms?: string[],
+//     genre?: string | null,
+//     metacritic?: number | null,
+// };
+
 // product page
 export type ProductPageProps = {
     product: Product
@@ -94,6 +110,7 @@ export type Reviews = {
 export type GameProduct = {
     productType: "video-game"
     background_image: string
+    genre: string
     genres: GenreObject[]
     playtime: number
     rating: number
@@ -103,19 +120,21 @@ export type GameProduct = {
     onConsole: ConsoleName
     reviews: Reviews
     metacritic: number
-    metacritic_url: string
+    metacritic_url: string | null
     description?: string
     gameDeveloper?: string
     favorite?: boolean
-    hot?: boolean
+    bestseller?: boolean
     sale?: boolean
     gameId: "TEST-GAME-ID" | string | number
 };
 export type ConsoleName = "PlayStation 5" | "PlayStation 4" | "Xbox Series X" | "Xbox One" | "Nintendo" | "PC"
+export type Platform = "playstation" | "xbox" | "nintendo" | "pc"
 export type ConsoleProduct = {
     productType: "console"
     productMake: string
     imgUrl: string
+    platform: Platform
 };
 
 
@@ -131,18 +150,28 @@ export type ConsoleCardProps = {
 };
 export type VideoGameCardProps = {
     productType: "video-game"
-    game: Game
+    game: Product & GameProduct
     consoleName?: string
 };
-export type Game = {
+// Game type not needed
+// export type Game = {
+//     name: string
+//     background_image: string
+//     rating: number
+//     ratings_count: number
+//     platforms: PlatformObject[] | string
+//     genres: GenreObject[] | string
+//     price?: string
+//     favorite?: boolean
+//     sale?: boolean
+// };
+export type AConsole = {
+    productMake: string
     name: string
-    background_image: string
-    rating: number
-    ratings_count: number
-    platforms: PlatformObject[] | string
-    genres: GenreObject[] | string
-    price?: string
-    favorite?: boolean
+    imgUrl: string
+    price: string
+    bestseller?: boolean
+    platform: string
 };
 
 // General
@@ -164,7 +193,7 @@ export type consoleObject = {
 // for api call
 export type GameDataOptions = {
     pageSize: number
-    esrbRating: string | null
+    // esrbRating: string | null
     platforms: string[]
     genre: string | null
     minRating: number | null

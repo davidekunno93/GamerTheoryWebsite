@@ -1,10 +1,9 @@
 .product-card-container {
-    height: 460px;
+    height: 492px;
     width: 320px;
     display: flex;
     align-items: center;
     justify-content: center;
-    /* border: 1px solid salmon; */ 
 }
 .product-card {
     /* height: 448px; */
@@ -107,6 +106,16 @@
     font-weight: 700;
     font-size: 20px;
     color: rgb(72, 72, 72);
+    display: flex; 
+    align-items: center;
+    gap: 8px;
+}
+.product-card .price .before {
+    text-decoration: line-through;
+    color: gray;
+}
+.product-card .price .after {
+    color: red;
 }
 .product-card .favorite {
     width: auto;

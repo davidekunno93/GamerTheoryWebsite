@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import HeroSection from '../../Components/HeroSection/HeroSection'
 import './dashboard.scoped.css'
+import { useLayoutEffect } from 'react';
 
 
 export const Dashboard = () => {
@@ -66,6 +67,10 @@ export const Dashboard = () => {
     },
   ];
 
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <HeroSection bannerObjects={bannerObjects} />
@@ -78,7 +83,7 @@ export const Dashboard = () => {
         let isEven = (index + 1) % 2 === 0
         return <div key={index} className={`section ${isEven ? "even" : "odd"}`}>
           <div className="bannerDiv">
-            <Link to={franchise.pageLink}><div className="banner" style={{ backgroundImage: `url(${franchise.bannerUrl})` }}>
+            <Link to={franchise.pageLink} state={{ disposition: "console" }}><div className="banner" style={{ backgroundImage: `url(${franchise.bannerUrl})` }}>
               <div className="see-more-link">
                 <p>VIEW PRODUCTS</p>
               </div>

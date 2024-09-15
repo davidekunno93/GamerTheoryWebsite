@@ -6,14 +6,12 @@ type LoadingProps = {
     open: boolean
     closureDelay: number
     overlayColor?: string
-    overlayFillType: "fillElement" | "fullscreen"
+    overlayFillType: "fillElement" | "fullscreen" 
+    loaderPosition?: string
 }
-const Loading = ({ open, closureDelay, overlayColor, overlayFillType }: LoadingProps) => {
+const Loading = ({ open, closureDelay, overlayColor, overlayFillType, loaderPosition }: LoadingProps) => {
 
     const [faded, setFaded] = useState(true);
-    // useEffect(() => {
-    //     setFaded(false);
-    // }, []);
     useEffect(() => {
         if (open) {
             setFaded(false);
@@ -25,7 +23,7 @@ const Loading = ({ open, closureDelay, overlayColor, overlayFillType }: LoadingP
     return (
         <div className={`overlay-${overlayFillType}`} data-color={overlayColor ?? "whitelite"} data-faded={faded} style={{ transitionDelay: `${open ? 0 : closureDelay}ms`}}>
 
-            <div className="loading-box">
+            <div className="loading-box" style={{ position: loaderPosition as any ?? "absolute" }}>
                 <span className="line-1"></span>
                 <span className="line-2"></span>
                 <span className="line-3"></span>

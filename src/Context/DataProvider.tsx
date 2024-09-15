@@ -180,7 +180,6 @@ const DataProvider = (props: any) => {
         };
         return null;
     };
-
     const createArrFromObjectKey = (arr: any[], key: string | string[]): any[] => {
         // for when you have a list of objects and you want to get a list of a specific key
         let result = [];
@@ -210,10 +209,219 @@ const DataProvider = (props: any) => {
         };
         return result;
     };
-    // get functions
-    const getGames = async (platforms: string[], pageNumber?: number) => {
+
+
+    // libraries
+    const consolesLibrary: any = {
+        'playstation': {
+            name: 'playstation',
+            consoles: ['PlayStation 5', 'PlayStation 4'],
+            bannerObjects: [
+                {
+                    imgUrl: "https://i.imgur.com/r4K98Bv.jpg",
+                    btnText: "Buy FC24",
+                    link: "",
+                },
+                {
+                    title: "God of War Ragnarok",
+                    imgUrl: "https://i.imgur.com/YA9kNGf.jpg",
+                    text: "Join Kratos and Atreus on a mythic journey for answers before Ragnarök arrives",
+                    btnText: "Buy God of War Ragnarok",
+                    link: "",
+                    // objectPosition: "top",
+                },
+                {
+                    title: "The Last of Us: Part II",
+                    imgUrl: "https://i.imgur.com/nYW0CWK.jpg",
+                    text: "Ellie embarks on another journey through a post-apocalyptic America on a mission of vengeance against a mysterious militia.",
+                    btnText: "Buy The Last of Us: Part II",
+                    link: "",
+                    objectPosition: "left",
+                },
+                {
+                    // title: null,
+                    imgUrl: "https://i.imgur.com/6hdiCyN.png",
+                    // text: null,
+                    btnText: "Buy Ratchet & Clank Rift Apart",
+                    link: "",
+                    objectPosition: "left",
+                },
+                {
+                    title: "PS5 Disc Edition vs Digital Edition",
+                    imgUrl: "https://i.imgur.com/n4wIsEh.jpg",
+                    text: "With a disc-drive PS5, games can be installed from physical discs or via digital downloads. However, the digital-edition PS5 is digital downloads only",
+                    btnText: "Buy Sony PlayStation 5",
+                    link: "",
+                },
+
+            ],
+            consoleProducts: [
+                {
+                    productMake: "Sony Interactive Entertainment",
+                    name: "PlayStation 5 Slim Disc Edition",
+                    price: "$499.99",
+                    imgUrl: "https://i.imgur.com/O5i3fx0.png",
+                    imgReel: [
+                        "https://i.imgur.com/JOF0w0U.png",
+                        "https://i.imgur.com/hGApMbf.jpg",
+                        "https://i.imgur.com/A3YFfaH.jpg",
+                        "https://i.imgur.com/Os3NlpI.jpg",
+                        "https://i.imgur.com/Eqm1pQE.jpg",
+                        "https://i.imgur.com/Usyaekb.jpg",
+                        "https://i.imgur.com/qN6XFGV.jpg",
+                    ],
+                    productType: "console",
+                    platform: 'playstation',
+                },
+                {
+                    productMake: "Sony Interactive Entertainment",
+                    name: "PlayStation 5 Slim Digital Edition",
+                    price: "$449.99",
+                    imgUrl: "https://i.imgur.com/Zo4Iq5K.png",
+                    imgReel: [
+                        "https://i.imgur.com/aJcmSy3.jpg",
+                    ],
+                    productType: "console",
+                    platform: 'playstation',
+                },
+                {
+                    productMake: "Sony Interactive Entertainment",
+                    name: "PlayStation 4 Pro 1TB",
+                    price: "$299.99",
+                    imgUrl: "https://i.imgur.com/YcJfKfb.png",
+                    imgReel: [
+                        "https://i.imgur.com/YcJfKfb.png",
+                    ],
+                    productType: "console",
+                    platform: 'playstation',
+                },
+                {
+                    productMake: "Sony Interactive Entertainment",
+                    name: "PlayStation 4 Slim 500GB",
+                    price: "$279.99",
+                    imgUrl: "https://i.imgur.com/wPN1D2d.png",
+                    imgReel: [
+                        "https://i.imgur.com/wPN1D2d.png",
+                    ],
+                    productType: "console",
+                    platform: 'playstation',
+                },
+            ],
+        },
+        'xbox': {
+            name: 'xbox',
+            consoles: ['Xbox Series X', 'Xbox One'],
+            bannerObjects: [
+                {
+                    imgUrl: "https://i.imgur.com/3AGebBo.png",
+                    btnText: "Buy Xbox Series X",
+                    link: "",
+                },
+                {
+                    imgUrl: "https://i.imgur.com/7Ro7SCi.jpg",
+                    btnText: "Buy Call of Duty: Black Ops 6",
+                    link: "",
+                },
+                {
+                    imgUrl: "https://i.imgur.com/yL2O1oX.jpg",
+                    btnText: "Buy Assassin's Creed: Shadows",
+                    link: "",
+                },
+                {
+                    imgUrl: "https://i.imgur.com/io8qVRR.jpg",
+                    btnText: "Buy Forza Horizon 5",
+                    title: "Forza Horizon 5",
+                    text: "Forza Horizon 5 is a racing video game set in an open world environment based in a fictional representation of Mexico",
+                    link: "",
+                },
+            ],
+            consoleProducts: [
+                {
+                    productMake: "Microsoft",
+                    name: "Xbox Series X 1TB",
+                    price: "$499.99",
+                    imgUrl: "https://i.imgur.com/H65yNiT.png",
+                    imgReel: [
+                        "https://i.imgur.com/H65yNiT.png",
+                    ],
+                    productType: "console",
+                    platform: 'xbox',
+                },
+                {
+                    productMake: "Microsoft",
+                    name: "Xbox One S 1TB",
+                    price: "$449.99",
+                    imgUrl: "https://i.imgur.com/WVpHH0m.png",
+                    imgReel: [
+                        "https://i.imgur.com/WVpHH0m.png",
+                    ],
+                    productType: "console",
+                    platform: 'xbox',
+                },
+                {
+                    productMake: "Microsoft",
+                    name: "Xbox One X 1TB (Renewed)",
+                    price: "$154.99",
+                    imgUrl: "https://i.imgur.com/X78WguU.png",
+                    imgReel: [
+                        "https://i.imgur.com/X78WguU.png",
+                    ],
+                    productType: "console",
+                    platform: 'xbox',
+                },
+            ],
+        },
+        'nintendo': {
+            name: 'nintendo',
+            consoles: ['Nintendo Switch'],
+            bannerObjects: [
+                {
+                    imgUrl: "https://i.imgur.com/ArzkJmo.png",
+                    btnText: "Buy Nintendo Switch",
+                    link: "",
+                },
+                {
+                    imgUrl: "https://i.imgur.com/127AoRN.jpg",
+                    btnText: "Buy Mario Kart Deluxe",
+                    link: "",
+                },
+                {
+                    imgUrl: "https://i.imgur.com/hJMrfb7.jpg",
+                    btnText: "Buy Mario Party Superstars",
+                    link: "",
+                },
+                {
+                    imgUrl: "https://i.imgur.com/C3ur0D0.png",
+                    btnText: "Buy Zelda: Tears of the Kingdom",
+                    title: "Zelda: Tears of the Kingdom",
+                    text: "Link and Zelda set out to explore the cavern beneath Hyrule Castle",
+                    link: "",
+                    objectPosition: "top",
+                },
+
+            ],
+            consoleProducts: [
+                {
+                    productMake: "Nintendo",
+                    name: "Nintendo Switch",
+                    price: "$349.99",
+                    imgUrl: "https://i.imgur.com/tW11rZ0.png",
+                    imgReel: [
+                        "https://i.imgur.com/tW11rZ0.png",
+                    ],
+                    productType: "console",
+                    platform: 'nintendo',
+                },
+            ],
+        },
+    };
+
+
+    // get game data functions
+    const getGames = async (platforms: string[], pageNumber?: number, genre?: string, metacritic?: number) => {
         let platformIds = platformToPlatformId(platforms);
-        let url = `https://api.rawg.io/api/games?&platforms=${platformIds.join(",")}&page_size=12${pageNumber ? `&page=${pageNumber}` : ""}&key=${import.meta.env.VITE_APP_RAWG_API_KEY}`
+        let url = `https://api.rawg.io/api/games?&platforms=${platformIds.join(",")}${genre ? `&genres=${genre.toLowerCase()}` : ""}${metacritic ? `&metacritic=${metacritic}` : ""}&page_size=12${pageNumber ? `&page=${pageNumber}` : ""}&key=${import.meta.env.VITE_APP_RAWG_API_KEY}`
+        console.log(url)
         const response = await axios.get(url)
         return handleGameData(response.data);
     };
@@ -233,8 +441,10 @@ const DataProvider = (props: any) => {
                 metacritic: game.metacritic,
                 metacritic_url: game.metacritic_url,
                 // none-copy keys
+                // genre: game.genres.map((genre: any) => genre.name).join(", "),
+                genre: game.genres[0].name,
                 reviews: createReviewsArr(game.ratings),
-                hot: game.added_by_status.owned >= 10000,
+                bestseller: game.added_by_status.owned >= 10000,
                 sale: parseInt(game.released.split("-")[0]) <= 2014,
                 price: "$69.99",
                 productType: "video-game",
@@ -376,7 +586,7 @@ const DataProvider = (props: any) => {
     };
     useEffect(() => {
         if (productControls.selectedProduct && productControls.isNavigating) {
-            navigate('/product');
+            navigate(`/product/${productControls.selectedProduct.name.replace(/ /g, "-").toLowerCase()}`);
             setProductControls({ ...productControls, isNavigating: false });
         };
     }, [productControls.selectedProduct]);
@@ -389,6 +599,7 @@ const DataProvider = (props: any) => {
         name: "Grand Theft Auto V",
         description: "Rockstar Games went bigger, since their previous installment of the series. You get the complicated and realistic world-building from Liberty City of GTA4 in the setting of lively and diverse Los Santos, from an old fan favorite GTA San Andreas. 561 different vehicles (including every transport you can operate) and the amount is rising with every update. Simultaneous storytelling from three unique perspectives:  Follow Michael, ex-criminal living his life of leisure away from the past, Franklin, a kid that seeks the better future, and Trevor, the exact past Michael is trying to run away from.  GTA Online will provide a lot of additional challenge even for the experienced players, coming fresh from the story mode. Now you will have other players around that can help you just as likely as ruin your mission. Every GTA mechanic up to date can be experienced by players through the unique customizable character, and community content paired with the leveling system tends to keep everyone busy and engaged. Español Rockstar Games se hizo más grande desde su entrega anterior de la serie. Obtienes la construcción del mundo complicada y realista de Liberty City de GTA4 en el escenario de Los Santos, un viejo favorito de los fans, GTA San Andreas. 561 vehículos diferentes (incluidos todos los transportes que puede operar) y la cantidad aumenta con cada actualización. Narración simultánea desde tres perspectivas únicas: Sigue a Michael, ex-criminal que vive su vida de ocio lejos del pasado, Franklin, un niño que busca un futuro mejor, y Trevor, el pasado exacto del que Michael está tratando de huir. GTA Online proporcionará muchos desafíos adicionales incluso para los jugadores experimentados, recién llegados del modo historia. Ahora tendrás otros jugadores cerca que pueden ayudarte con la misma probabilidad que arruinar tu misión. Los jugadores pueden experimentar todas las mecánicas de GTA actualizadas a través del personaje personalizable único, y el contenido de la comunidad combinado con el sistema de nivelación tiende a mantener a todos ocupados y comprometidos.",
         background_image: "https://i.imgur.com/wvmVtjo.png",
+        genre: "Action",
         genres: [
             {
                 id: 4,
@@ -398,6 +609,7 @@ const DataProvider = (props: any) => {
         rating: 4.47,
         esrb_rating: "18+",
         ratings_count: 6860,
+        bestseller: true,
         reviews: {
             skip: 1.85,
             notBad: 6.32,
@@ -446,6 +658,7 @@ const DataProvider = (props: any) => {
         metacritic: 94,
         metacritic_url: "https://www.metacritic.com/game/pc/god-of-war-ragnorak",
         background_image: "https://i.imgur.com/ZStckzM.jpg",
+        genre: "Action",
         genres: [
             {
                 id: 4,
@@ -474,7 +687,7 @@ const DataProvider = (props: any) => {
             textFunctions, timeFunctions, wait, gIcon, platformToPlatformId,
             starImgs, getGames, getGenre, convertPlatformsToString, numToRating,
             selectedProduct: productControls.selectedProduct, productPageFunctions,
-            testGameProduct, testGameProduct2, isVowel, getDotColor
+            testGameProduct, testGameProduct2, isVowel, getDotColor, consolesLibrary
         }}>
             {props.children}
         </DataContext.Provider>

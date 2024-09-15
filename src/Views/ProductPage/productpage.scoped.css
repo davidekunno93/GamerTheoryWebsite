@@ -9,6 +9,14 @@
 .breadcrumbs-section {
     padding: 12px;
 }
+.breadcrumbs {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+.breadcrumbs p:not(.current-crumb) {
+    text-decoration: underline;
+}
 .product-showcase {
     display: flex;
     flex-direction: row;
@@ -57,6 +65,7 @@ button.push-down {
 }
 .img-reel .window {
     height: 100%;
+    padding: 0px 8px;
     overflow: hidden;
 }
 .img-reel .inner {
@@ -93,6 +102,20 @@ button.push-down {
     justify-content: center;
     align-items: center;
     background-color: whitesmoke;
+    position: relative;
+    overflow: hidden;
+}
+.img-selectedDiv .hover-glass {
+    position: absolute ;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: transparent; 
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    z-index: 1;
 }
 .img-selectedDiv img {
     height: 75%;
@@ -103,11 +126,11 @@ button.push-down {
     height: 100%;
     flex: 3;
     color: black;
-    padding: 12px 48px;
+    padding: 0px 48px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 16px;
 }
 .product-info .developers-and-rating {
     display: flex;
@@ -122,6 +145,17 @@ button.push-down {
 .product-info .price {
     font-size: 36px;
     font-weight: 600;
+    display: flex;
+    flex-direction: row;
+    align-items: center; 
+    gap: 16px;
+}
+.product-info .price .before {
+    text-decoration: line-through;
+    color: gray;
+}
+.product-info .price .after {
+    color: red;
 }
 .metacritic-rating {
     display: flex;
@@ -139,7 +173,25 @@ button.push-down {
     text-decoration: underline;
     cursor: pointer;
 }
-
+.bestseller {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    margin: 8px 0px;
+    font-weight: 600;
+    color: red;
+}
+.bestseller span {
+    background-color: rgb(255, 230, 230);
+    border-radius: 50%;
+    height: 24px;
+    width: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+}
 
 
 
@@ -174,66 +226,16 @@ button.push-down {
     color: black;
 }
 
-/* .reviews {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    width: 512px;
-    margin-bottom: 24px;
-}
-.reviews .legend {
-    display: flex;
-    flex-direction: row;
-    gap: 18px;
-    align-items: center;
-}
-.legend .legend-item {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
-}
-.legend-item .legend-dot {
-    height: 12px;
-    width: 12px;
-    border-radius: 50%;
-}
-.legend-item p {
-    font-weight: 600;
-    white-space: nowrap;
-}
-.review-bar {
-    display: flex;
-    flex-direction: row; 
-    align-items: center;
-    height: 8px;
-    border-radius: 4px;
-    width: 100%; 
-    background-color: gray;
-    overflow: hidden;
-}
-.review-bar .portion {
-    height: 100%;
-}
-.review-bar .portion[data-opinion="skip"] {
-    background-color: gray;
-}
-.review-bar .portion[data-opinion="notBad"] {
-    background-color: yellow;
-}
-.review-bar .portion[data-opinion="good"] { 
-    background-color: orange;
-}   
-.review-bar .portion[data-opinion="exceptional"] { 
-    background-color: red;
-} */
+
 
 .similar-products-container {
     text-align: left;
     display: flex;
     flex-direction: column;
-    padding: 48px 24px;
+    padding: 48px 24px; 
     box-sizing: border-box;
+    position: relative;
+    height: 681px;
 }
 .more-like-this {
     font-size: 30px;
