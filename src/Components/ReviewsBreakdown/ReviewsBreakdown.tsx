@@ -7,6 +7,7 @@ type ReviewsBreakdownProps = {
     product: Product & GameProduct
 }
 const ReviewsBreakdown = ({ product }: ReviewsBreakdownProps) => {
+    if (!product.reviews) return null;
     const { textFunctions, getDotColor } = useContext(DataContext);
     
     return (

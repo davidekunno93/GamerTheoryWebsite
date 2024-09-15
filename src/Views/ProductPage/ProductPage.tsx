@@ -307,9 +307,7 @@ const ProductPage = ({ product }: ProductPageProps) => {
                 </div>
                 {product.productType === "video-game" &&
                     <div className="description-and-reviews">
-                        {product.reviews &&
-                            <ReviewsBreakdown product={product} />
-                        }
+                        <ReviewsBreakdown product={product} />
                         {product.description &&
                             <div className="description">
                                 <h3 className='m-0'>Description</h3>
