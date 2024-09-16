@@ -22,7 +22,7 @@ const ReviewsBreakdown = ({ product }: ReviewsBreakdownProps) => {
             </div>
             <div className="review-bar">
                 {Object.entries(product.reviews).map(([opinion, percent], index) => {
-                    return <div key={index} className="portion" data-opinion={opinion} style={{ width: `${percent}%` }}></div>
+                    return <div key={index} className="portion" data-opinion={opinion} style={{ width: `calc(${percent}% - 1.5px)` }}></div>
                 })}
             </div>
         </div>
